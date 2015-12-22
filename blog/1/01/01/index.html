@@ -1,0 +1,2492 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title> &middot; 段兵楠</title>
+
+  
+  <link rel="stylesheet" href="http://bingnan.github.io/css/poole.css">
+  <link rel="stylesheet" href="http://bingnan.github.io/css/hyde.css">
+  <link rel="stylesheet" href="http://bingnan.github.io/css/poole-overrides.css">
+  <link rel="stylesheet" href="http://bingnan.github.io/css/hyde-overrides.css">
+  <link rel="stylesheet" href="http://bingnan.github.io/css/hyde-x.css">
+  <link rel="stylesheet" href="http://bingnan.github.io/css/highlight/solarized_light.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://bingnan.github.io/touch-icon-144-precomposed.png">
+  <link href="http://bingnan.github.io/favicon.png" rel="icon">
+
+  
+  
+  
+  
+
+  <meta name="description" content="Tech musings, current projects and more about me, duanbingnan!">
+  <meta name="keywords" content="duanbingnan,home,website,blog">
+  
+</head>
+<body class="theme-base-0d">
+<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      
+      <h1>段兵楠</h1>
+      <p class="lead">德艺双馨的老工程师</p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-item"><a href="http://bingnan.github.io/">Blog</a></li>
+      
+    </ul>
+
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-item">
+      <a href="https://github.com/bingnan"><i class="fa fa-github-square fa-3x"></i></a>
+      
+      
+      <a href="http://www.linkedin.com/in/duanbingnan"><i class="fa fa-linkedin-square fa-3x"></i></a>
+      <a href="https://plus.google.com/&#43;%E6%AE%B5%E5%85%B5%E6%A5%A0google"><i class="fa fa-google-plus-square fa-3x"></i></a>
+      <a href="https://www.facebook.com/duanbingnan"><i class="fa fa-facebook-square fa-3x"></i></a>
+      <a href="https://twitter.com/bingnan"><i class="fa fa-twitter-square fa-3x"></i></a>
+      <a href="https://www.youtube.com/user/duanbingnan"><i class="fa fa-youtube-square fa-3x"></i></a>
+      
+      </li>
+    </ul>
+
+    
+
+    <p>Copyright &copy; 2015 <a href="http://bingnan.github.io/license/">License</a><br/>
+       Powered by <a href="http://gohugo.io">Hugo</a> and <a href="https://github.com/zyro/hyde-x">Hyde-X</a></p>
+  </div>
+</div>
+
+
+<div class="content container">
+  <div class="post">
+    <h1></h1>
+    <span class="post-date">Jan 1, 0001 &middot; 31 minute read &middot; <a href="http://bingnan.github.io/blog/1/01/01/#disqus_thread">Comments</a>
+    </span>
+    
+
+<p>这个我称之为 『段批』 nginx-rtmp-module使用指南</p>
+
+<p>原文在 <a href="https://github.com/arut/nginx-rtmp-module/wiki/Directives">nginx-rtmp-module Directives</a> 是最后修改于2014年12月17日的版本。</p>
+
+<p>网上也有几个翻译的版本，但都比较老了，我这个主要参考了<a href="http://blog.csdn.net/defonds/article/details/9274479">这篇</a> 还有闯闯自己翻译珍藏的版本。</p>
+
+<p>中英文对照形式的，有的解释其实看英文更好理解，所以这样编排。</p>
+
+<p>最主要的特色是在部分指令后加入了<strong>提示</strong>，把我们在最近几个月里使用nginx-rtmp-module的方法，或是遇到的问题以及解决方法记录了一下。</p>
+
+<p>Ready? GO!</p>
+
+<h1 id="table-of-contents:a8edd52e082f44f6a206bc3ba04c03d4">Table of Contents</h1>
+
+<ul>
+<li><a href="#core">Core</a>
+
+<ul>
+<li><a href="#rtmp">rtmp</a></li>
+<li><a href="#server">server</a></li>
+<li><a href="#listen">listen</a></li>
+<li><a href="#application">application</a></li>
+<li><a href="#timeout">timeout</a></li>
+<li><a href="#ping">ping</a></li>
+<li><a href="#ping_timeout">ping_timeout</a></li>
+<li><a href="#max_streams">max_streams</a></li>
+<li><a href="#ack_window">ack_window</a></li>
+<li><a href="#chunk_size">chunk_size</a></li>
+<li><a href="#max_queue">max_queue</a></li>
+<li><a href="#max_message">max_message</a></li>
+<li><a href="#buflen">buflen</a></li>
+<li><a href="#out_queue">out_queue</a></li>
+<li><a href="#out_cork">out_cork</a></li>
+</ul></li>
+<li><a href="#access">Access</a>
+
+<ul>
+<li><a href="#allow">allow</a></li>
+<li><a href="#deny">deny</a></li>
+</ul></li>
+<li><a href="#exec">Exec</a>
+
+<ul>
+<li><a href="#exec_push">exec_push</a></li>
+<li><a href="#exec_pull">exec_pull</a></li>
+<li><a href="#exec">exec</a></li>
+<li><a href="#exec_options">exec_options</a></li>
+<li><a href="#exec_static">exec_static</a></li>
+<li><a href="#exec_kill_signal">exec_kill_signal</a></li>
+<li><a href="#respawn">respawn</a></li>
+<li><a href="#respawn_timeout">respawn_timeout</a></li>
+<li><a href="#exec_publish">exec_publish</a></li>
+<li><a href="#exec_play">exec_play</a></li>
+<li><a href="#exec_play_done">exec_play_done</a></li>
+<li><a href="#exec_publish_done">exec_publish_done</a></li>
+<li><a href="#exec_record_done">exec_record_done</a></li>
+</ul></li>
+<li><a href="#live">Live</a>
+
+<ul>
+<li><a href="#live">live</a></li>
+<li><a href="#meta">meta</a></li>
+<li><a href="#interleave">interleave</a></li>
+<li><a href="#wait_key">wait_key</a></li>
+<li><a href="#wait_video">wait_video</a></li>
+<li><a href="#publish_notify">publish_notify</a></li>
+<li><a href="#drop_idle_publisher">drop_idle_publisher</a></li>
+<li><a href="#sync">sync</a></li>
+<li><a href="#play_restart">play_restart</a></li>
+<li><a href="#idle_streams">idle_streams</a></li>
+</ul></li>
+<li><a href="#record">Record</a>
+
+<ul>
+<li><a href="#record">record</a></li>
+<li><a href="#record_path">record_path</a></li>
+<li><a href="#record_suffix">record_suffix</a></li>
+<li><a href="#record_unique">record_unique</a></li>
+<li><a href="#record_append">record_append</a></li>
+<li><a href="#record_lock">record_lock</a></li>
+<li><a href="#record_max_size">record_max_size</a></li>
+<li><a href="#record_max_frames">record_max_frames</a></li>
+<li><a href="#record_interval">record_interval</a></li>
+<li><a href="#recorder">recorder</a></li>
+<li><a href="#record_notify">record_notify</a></li>
+</ul></li>
+<li><a href="#video-on-demand">Video on demand</a>
+
+<ul>
+<li><a href="#play">play</a></li>
+<li><a href="#play_temp_path">play_temp_path</a></li>
+<li><a href="#play_local_path">play_local_path</a></li>
+</ul></li>
+<li><a href="#relay">Relay</a>
+
+<ul>
+<li><a href="#pull">pull</a></li>
+<li><a href="#push">push</a></li>
+<li><a href="#push_reconnect">push_reconnect</a></li>
+<li><a href="#session_relay">session_relay</a></li>
+</ul></li>
+<li><a href="#notify">Notify</a>
+
+<ul>
+<li><a href="#on_connect">on_connect</a></li>
+<li><a href="#on_play">on_play</a></li>
+<li><a href="#on_publish">on_publish</a></li>
+<li><a href="#on_done">on_done</a></li>
+<li><a href="#on_play_done">on_play_done</a></li>
+<li><a href="#on_publish_done">on_publish_done</a></li>
+<li><a href="#on_record_done">on_record_done</a></li>
+<li><a href="#on_update">on_update</a></li>
+<li><a href="#notify_update_timeout">notify_update_timeout</a></li>
+<li><a href="#notify_update_strict">notify_update_strict</a></li>
+<li><a href="#notify_relay_redirect">notify_relay_redirect</a></li>
+<li><a href="#notify_method">notify_method</a></li>
+</ul></li>
+<li><a href="#hls">HLS</a>
+
+<ul>
+<li><a href="#hls">hls</a></li>
+<li><a href="#hls_path">hls_path</a></li>
+<li><a href="#hls_fragment">hls_fragment</a></li>
+<li><a href="#hls_playlist_length">hls_playlist_length</a></li>
+<li><a href="#hls_sync">hls_sync</a></li>
+<li><a href="#hls_continuous">hls_continuous</a></li>
+<li><a href="#hls_nested">hls_nested</a></li>
+<li><a href="#hls_base_url">hls_base_url</a></li>
+<li><a href="#hls_cleanup">hls_cleanup</a></li>
+<li><a href="#hls_fragment_naming">hls_fragment_naming</a></li>
+<li><a href="#hls_fragment_naming_granularity">hls_fragment_naming_granularity</a></li>
+<li><a href="#hls_fragment_slicing">hls_fragment_slicing</a></li>
+<li><a href="#hls_variant">hls_variant</a></li>
+<li><a href="#hls_type">hls_type</a></li>
+<li><a href="#hls_keys">hls_keys</a></li>
+<li><a href="#hls_key_path">hls_key_path</a></li>
+<li><a href="#hls_key_url">hls_key_url</a></li>
+<li><a href="#hls_fragments_per_key">hls_fragments_per_key</a></li>
+</ul></li>
+<li><a href="#mpeg-dash">MPEG-DASH</a>
+
+<ul>
+<li><a href="#dash">dash</a></li>
+<li><a href="#dash_path">dash_path</a></li>
+<li><a href="#dash_fragment">dash_fragment</a></li>
+<li><a href="#dash_playlist_length">dash_playlist_length</a></li>
+<li><a href="#dash_nested">dash_nested</a></li>
+<li><a href="#dash_cleanup">dash_cleanup</a></li>
+</ul></li>
+<li><a href="#access-log">Access log</a>
+
+<ul>
+<li><a href="#access_log">access_log</a></li>
+<li><a href="#log_format">log_format</a></li>
+</ul></li>
+<li><a href="#limits">Limits</a>
+
+<ul>
+<li><a href="#max_connections">max_connections</a></li>
+</ul></li>
+<li><a href="#statistics">Statistics</a>
+
+<ul>
+<li><a href="#rtmp_stat">rtmp_stat</a></li>
+<li><a href="#rtmp_stat_stylesheet">rtmp_stat_stylesheet</a></li>
+</ul></li>
+<li><a href="#multi-worker-live-streaming">Multi-worker live streaming</a>
+
+<ul>
+<li><a href="#rtmp_auto_push">rtmp_auto_push</a></li>
+<li><a href="#rtmp_auto_push_reconnect">rtmp_auto_push_reconnect</a></li>
+<li><a href="#rtmp_socket_dir">rtmp_socket_dir</a></li>
+</ul></li>
+<li><a href="#control">Control</a>
+
+<ul>
+<li><a href="#rtmp_control">rtmp_control</a></li>
+</ul></li>
+</ul>
+
+<h2 id="core:a8edd52e082f44f6a206bc3ba04c03d4">Core</h2>
+
+<h4 id="rtmp:a8edd52e082f44f6a206bc3ba04c03d4">rtmp</h4>
+
+<p>syntax: <code>rtmp { ... }</code><br />
+context: root<br />
+The block which holds all RTMP settings<br />
+此块包含所有RTMP设置</p>
+
+<p><strong>提示：</strong> 这是必须用到的参数</p>
+
+<h4 id="server:a8edd52e082f44f6a206bc3ba04c03d4">server</h4>
+
+<p>syntax: <code>server { ... }</code><br />
+context: rtmp<br />
+Declares RTMP server instance<br />
+声明RTMP服务器实例</p>
+
+<pre><code>rtmp {
+  server {
+  }
+}
+</code></pre>
+
+<p><strong>提示：</strong> 这是必须用到的参数</p>
+
+<h4 id="listen:a8edd52e082f44f6a206bc3ba04c03d4">listen</h4>
+
+<p>syntax: <code>listen (addr[:port]|port|unix:path) [bind]  [ipv6only=on|off] [so_keepalive=on|off|keepidle:keepintvl:keepcnt|proxy_protocol]</code><br />
+context: server</p>
+
+<p>Adds listening socket to NGINX for accepting RTMP connections<br />
+设置RTMP服务的监听端口</p>
+
+<pre><code>server {
+    listen 1935;
+}
+</code></pre>
+
+<p><strong>提示：</strong> 这是必须用到的参数，一般RTMP服务器监听1935端口，但也可以修改</p>
+
+<h4 id="application:a8edd52e082f44f6a206bc3ba04c03d4">application</h4>
+
+<p>syntax: <code>application name { ... }</code><br />
+context: server</p>
+
+<p>Creates RTMP application. Unlike http location application name cannot
+be a pattern.</p>
+
+<p>建立RTMP应用,与HTTP的location不同,不能是一个匹配模式(pattern),我理解就是必须是一个固定的字符串。</p>
+
+<pre><code>server {
+    listen 1935;
+    application myapp {
+    }
+}
+</code></pre>
+
+<p><strong>提示：</strong> 这是必须用到的参数，application是一个重要的参数，每个application{}块都是一个比较独立的配置块，一个server{}块中可以配置多个application{}块，每个可配成不同的行为，同时这个application的名字就是我们用推流工具往rtmp服务器上推流时用到的appid:</p>
+
+<p>例如：  rtmp://localhost:1935/appid/streamid</p>
+
+<p>其中appid就是你想往哪个application上推就填写哪个appid。<br />
+streamid一般是随便填，只要推流时和播放时一致就行。</p>
+
+<h4 id="timeout:a8edd52e082f44f6a206bc3ba04c03d4">timeout</h4>
+
+<p>syntax: <code>timeout value</code><br />
+context: rtmp, server</p>
+
+<p>Socket timeout. This value is primarily used for writing. Most of time RTMP
+module does not expect any activity on all sockets except for publisher socket.
+If you want broken socket to get quickly disconnected use active tools like
+keepalive or RTMP ping. Default is 1 minute.</p>
+
+<p>Socket超时,默认值是1分钟。主要用于写入。多数时候,除了RTMP的发布连接所使用的socket,RTMP module并不希望在其他的socket上有活动连接。如果希望快速断开错误连接,使用keepalive或RTMP ping。</p>
+
+<pre><code>timeout 60s;
+</code></pre>
+
+<p><strong>提示：</strong> 用默认值就行，我们没有特殊设置。</p>
+
+<h4 id="ping:a8edd52e082f44f6a206bc3ba04c03d4">ping</h4>
+
+<p>syntax: <code>ping value</code><br />
+context: rtmp, server</p>
+
+<p>RTMP ping interval. Zero turns ping off. RTMP ping is a protocol feature for
+active connection check. A special packet is sent to remote peer and a reply
+is expected within a timeout specified with ping_timeout directive. If ping
+reply is not received within this time then connection is closed. Default
+value for ping is 1 minute. Default ping timeout is 30 seconds.</p>
+
+<p>RTMP ping间隔。设置为0时，表示关闭ping。RTMP ping是一个用于检查活动连接的协议功能，发送一个特殊的包到远程连接，然后在ping_timeout指令指定的时间内期待一个回复。如果在这个时间里没有收到ping回复，连接断开。默认值是30秒。</p>
+
+<pre><code>ping 3m;
+ping_timeout 30s;
+</code></pre>
+
+<p><strong>提示：</strong> 用默认值就行，我们没有特殊设置。</p>
+
+<h4 id="ping-timeout:a8edd52e082f44f6a206bc3ba04c03d4">ping_timeout</h4>
+
+<p>syntax: <code>ping_timeout value</code><br />
+context: rtmp, server</p>
+
+<p>See ping description above.<br />
+见上</p>
+
+<h4 id="max-streams:a8edd52e082f44f6a206bc3ba04c03d4">max_streams</h4>
+
+<p>syntax: <code>max_streams value</code><br />
+context: rtmp, server</p>
+
+<p>Sets maximum number of RTMP streams. Data streams are multiplexed into
+a single data stream. Different channels are used for sending commands,
+audio, video etc. Default value is 32 which is usually ok for many cases.</p>
+
+<p>设置RTMP流的最大数目。数据流被复用到一个单一的数据流里。不同的频道用于发送命令、音频、视频等。 默认32,通常够用了。</p>
+
+<pre><code>max_streams 32;
+</code></pre>
+
+<p><strong>提示：</strong> 用默认值就行，我们没有特殊设置。</p>
+
+<h4 id="ack-window:a8edd52e082f44f6a206bc3ba04c03d4">ack_window</h4>
+
+<p>syntax: <code>ack_window value</code><br />
+context: rtmp, server</p>
+
+<p>Sets RTMP acknowledge window size. It&rsquo;s the number of bytes received after
+which peer should send acknowledge packet to remote side. Default value is
+5000000.</p>
+
+<p>设置RTMP确认的Window size, Window size就是一次发送数据,接收方可不作应答的最大长度。默认 5000000。</p>
+
+<pre><code>ack_window 5000000;
+</code></pre>
+
+<p><strong>提示：</strong> 用默认值就行，我们没有特殊设置。</p>
+
+<h4 id="chunk-size:a8edd52e082f44f6a206bc3ba04c03d4">chunk_size</h4>
+
+<p>syntax: <code>chunk_size value</code><br />
+context: rtmp, server</p>
+
+<p>Maximum chunk size for stream multiplexing. Default is 4096. The bigger
+this value the lower CPU overhead. This value cannot be less than 128.</p>
+
+<p>RTMP协议中chunk的大小。默认值为4096。这个值设置的越大CPU负载就越小。这个值不能低于128。</p>
+
+<pre><code>chunk_size 4096;
+</code></pre>
+
+<p><strong>提示：</strong> 用默认值就行，我们没有特殊设置。</p>
+
+<h4 id="max-queue:a8edd52e082f44f6a206bc3ba04c03d4">max_queue</h4>
+
+<p><strong>提示：</strong> 无解释</p>
+
+<h4 id="max-message:a8edd52e082f44f6a206bc3ba04c03d4">max_message</h4>
+
+<p>syntax: <code>max_queue value</code><br />
+context: rtmp, server</p>
+
+<p>Maximum size of input data message. All input data comes split into
+messages (and further in chunks). A partial message is kept in memory while
+waiting for it to complete. In theory incoming message can be
+very large which can be a problem for server stability. Default value
+1M is enough for many cases.</p>
+
+<p>输入数据报文最大尺寸。所有输入数据会被分割成报文（然后进一步分割为块）。报文在处理结束之前会放在内存里。理论上讲，接收到的报文很大的话对于服务器的稳定性可能会有影响。默认值 1M 对于大多数情况就足够了。</p>
+
+<pre><code>max_message 1M;
+</code></pre>
+
+<p><strong>提示：</strong> 用默认值就行，我们没有特殊设置。</p>
+
+<h3 id="buflen:a8edd52e082f44f6a206bc3ba04c03d4">buflen</h3>
+
+<p>syntax: <code>buflen time</code><br />
+context: rtmp, server</p>
+
+<p>Sets default buffer length. Usually client sends RTMP <code>set_buflen</code> command
+before playing and resets this setting. Default is <code>1000 ms</code>.</p>
+
+<p>缓冲区时长,默认1s。通常客户端在播放前,发送 RTMP set_buflen命令重设此值。</p>
+
+<pre><code>buflen 5s;
+</code></pre>
+
+<p><strong>提示：</strong> 为了减小延迟，我们可以尝试适当减小这个值，比如设成200ms。</p>
+
+<h4 id="out-queue:a8edd52e082f44f6a206bc3ba04c03d4">out_queue</h4>
+
+<p><strong>提示：</strong> 无解释</p>
+
+<h4 id="out-cork:a8edd52e082f44f6a206bc3ba04c03d4">out_cork</h4>
+
+<p><strong>提示：</strong> 无解释</p>
+
+<h2 id="access:a8edd52e082f44f6a206bc3ba04c03d4">Access</h2>
+
+<h4 id="allow:a8edd52e082f44f6a206bc3ba04c03d4">allow</h4>
+
+<p>Syntax: <code>allow [play|publish] address|subnet|all</code><br />
+Context: rtmp, server, application</p>
+
+<p>Allow publishing/playing from addresses specified or from all addresses.
+Allow/deny directives are checked in order of appearance.</p>
+
+<p>设置允许发布或播放的地址或地址范围。</p>
+
+<pre><code>allow publish 127.0.0.1;
+deny publish all;
+allow play 192.168.0.0/24;
+deny play all;
+</code></pre>
+
+<p><strong>提示：</strong> 我们没有设置这个值</p>
+
+<h4 id="deny:a8edd52e082f44f6a206bc3ba04c03d4">deny</h4>
+
+<p>Syntax: <code>deny [play|publish] address|subnet|all</code><br />
+Context: rtmp, server, application</p>
+
+<p>See allow for description.</p>
+
+<p><strong>提示：</strong> 我们没有设置这个值</p>
+
+<h2 id="exec:a8edd52e082f44f6a206bc3ba04c03d4">Exec</h2>
+
+<h4 id="exec-push:a8edd52e082f44f6a206bc3ba04c03d4">exec_push</h4>
+
+<p>Syntax: <code>exec_push command arg*</code><br />
+Context: rtmp, server, application</p>
+
+<p>Specifies external command with arguments to be executed on
+every stream published. When publishing stops the process
+is terminated. Full path to binary should be specified as the
+first argument. There are no assumptions about what this process should
+do. However this feature is useful with ffmpeg for stream
+transcoding. FFmpeg is supposed to connect to nginx-rtmp as a client
+and output transcoded stream back to nginx-rtmp as publisher. Substitutions
+of form $var/${var} can be used within command line:</p>
+
+<p>当每个流发布时执行提前指定的带参数的外部命令。当这个流发布停止时这个外部命令的进程也随之终止。注意外部命令的第一个参数要指定绝对路径（不然找不到这个外部程序）。这个功能通常被用于转码，ffmpeg首先被当做client接收数据流，转码之后又被成为publisher来发布流。外部命令行中可以使用如下变量：</p>
+
+<ul>
+<li>$name - stream name</li>
+<li>$app - application name</li>
+<li>$addr - client address</li>
+<li>$flashver - client flash version</li>
+<li>$swfurl - client swf url</li>
+<li>$tcurl - client tc url</li>
+<li>$pageurl - client page url</li>
+</ul>
+
+<p>Shell-style redirects can be specified in <code>exec_push</code> directive for writing output and accepting input. Supported are</p>
+
+<p>可以在exec指令中定义Shell格式的转向符用于写输出和接收输入。支持如下:</p>
+
+<ul>
+<li>truncating output <code>&gt;file</code></li>
+<li>appending output <code>&gt;&gt;file</code></li>
+<li>descriptor redirects like <code>1&gt;&amp;2</code></li>
+<li>input <code>&lt;file</code></li>
+</ul>
+
+<p>Make sure there&rsquo;s no space between redirection character and stream name/number.
+确保重定向符号和流名/号之间没有空格。</p>
+
+<p>You can specify full path to the command to execute or short command name. In the latter
+case binary is looked up in directories specified by the <code>PATH</code> environment variable.
+By default nginx clears the environment which will usually make rtmp module run only binaries
+located in standard directories like <code>/bin</code> and <code>/usr/bin</code>. To make this always work
+please keep the original <code>PATH</code> variable value with the following nginx directive.</p>
+
+<p>你可以在命令行写完整路径或只写命令名。如果是后者，会在PATH环境变量路径查找。 默认nginx会清理环境变量,rtmp模块会去/bin和/usr/bin查找可执行程序。请按下面命令设置PATH变量。</p>
+
+<pre><code>env PATH; 
+</code></pre>
+
+<p>The following ffmpeg call transcodes incoming stream to HLS-ready
+stream (H264/AAC). FFmpeg should be compiled with libx264 &amp; libfaac support
+for this example to work.</p>
+
+<p>下面的ffmpeg指令将输入流转码成符合HLS编码要求的流(视频编码H264/音频编码AAC)</p>
+
+<pre><code>application src {
+    live on;
+    exec_push ffmpeg -i rtmp://localhost/src/$name -vcodec libx264 -vprofile baseline -g 10 -s 300x200 -acodec libfaac -ar 44100 -ac 1 -f flv rtmp://localhost/hls/$name 2&gt;&gt;/var/log/ffmpeg-$name.log;
+}
+
+application hls {
+    live on;
+    hls on;
+    hls_path /tmp/hls;
+    hls_fragment 15s;
+}
+</code></pre>
+
+<p><strong>提示：</strong> 这个最后的例子，就是有2个application,首先推流工具往第一个application &lsquo;src&rsquo;推原始流，原始流经过ffmpeg转码后推倒第二个application &lsquo;hls&rsquo;上去。</p>
+
+<p>另外我们也使用了这种方式进行转码。</p>
+
+<h4 id="exec-pull:a8edd52e082f44f6a206bc3ba04c03d4">exec_pull</h4>
+
+<p>Syntax: <code>exec_pull command arg*</code><br />
+Context: rtmp, server, application</p>
+
+<p>Specifies external command with arguments to be executed on play event.
+The command is executed when first client connects to the stream and is
+killed when the last one disconnects. This directive makes it possible
+to pull remote stream in any format for local clients.</p>
+
+<p>当播放时执行提前指定的带参数的外部命令。外部程序在第一个客户端连接时开始执行，直到最后一个客户端断开连接时终止。这个参数使为本地客户端拉取任意格式的远程流成为可能。</p>
+
+<p>The feature works reliably only in single-worker mode. The reason for this
+is we cannot make sure external process always connects to the right worker.
+It will obviously connect to a random one. While this will still work in
+most cases it&rsquo;s not a recommended architecture, it will be unstable and buggy.</p>
+
+<p>此特性只在单worker模式下工作稳定。因为外部进程连接到随机的worker。虽然通常都能工作,但不推荐这么用(好坑爹)。</p>
+
+<p>Directive arguments are the same as for <code>exec_push</code>.</p>
+
+<p>可以使用的变量和exec_push中提到的一样。</p>
+
+<pre><code>application myapp {
+    live on;
+    exec_pull ffmpeg -i http://example.com/video_$name.ts -c copy -f flv rtmp://localhost/$app/$name;
+}
+</code></pre>
+
+<p>In the above configuration <code>exec_pull</code> directive serves all streams. That leads
+to certain limitations on remote stream name format. It should be possible to construct
+the remote url using available variables like <code>$app</code>, <code>$name</code> etc. When it&rsquo;s not possible
+you can add <code>exec_options on</code> directive which permits setting additional stream options
+in exec-family directives. The only option supported now is <code>name</code> option.</p>
+
+<p>上面的exec_pull配置服务所有流，这导致远程流的名称格式有一定的限制，也就是必须可以使用诸如$app $name等变量来构成其url。 你也可以使用exec_options on来许可额外的流选项，目前只支持name选项。</p>
+
+<pre><code>application myapp {
+    live on;
+    exec_options on;
+    exec_pull ffmpeg -i http://example.com/tv1.ts -c copy -f flv rtmp://localhost/$app/$name name=mystream;
+    exec_pull ffmpeg -i http://another.example.com/video_plus.ts -c copy -f flv rtmp://localhost/$app/$name name=anotherstream;
+}
+</code></pre>
+
+<p><strong>提示：</strong> 我们目前没有用到exec_pull的场景，也没有做过多测试。</p>
+
+<h4 id="exec-1:a8edd52e082f44f6a206bc3ba04c03d4">exec</h4>
+
+<p>Syntax: <code>exec command arg*</code><br />
+Context: rtmp, server, application</p>
+
+<p><code>exec</code> is an alias of <code>exec_push</code></p>
+
+<p>同exec_push</p>
+
+<h4 id="exec-options:a8edd52e082f44f6a206bc3ba04c03d4">exec_options</h4>
+
+<p>Syntax: <code>exec_options on|off</code><br />
+Context: rtmp, server, application</p>
+
+<p>The directive toggles exec options mode. When activated you can
+add exec-family directive options. The only exec option supported is <code>name</code>.
+This option makes it possible to apply exec only to specified stream.
+Default if off.</p>
+
+<p>设置执行可选模式。你可以添加执行群可选方案。目前只支持name。此选项可以针对特定流执行。默认关。</p>
+
+<pre><code>exec_options on;
+# call on_publish only for &quot;mystream&quot;
+exec_publish http://localhost/on_publish name=mystream;
+
+# call on_play only for &quot;another&quot;
+exec_play http://localhost/on_play name=another;
+
+# execute different ffmpeg's for different streams
+exec_pull http://example.com/abc.ts -c copy -f flv rtmp://localhost/$name/$app name=mystream;
+exec_pull http://my.example.com/tele.ts -c copy -f flv rtmp://localhost/$name/$app name=tv;
+exec_pull http://enother.example.com/hello/f.ts -c copy -f flv rtmp://localhost/$name/$app name=fun;
+</code></pre>
+
+<p><strong>提示：</strong> 默认关闭，我们没有用到这个参数。</p>
+
+<h4 id="exec-static:a8edd52e082f44f6a206bc3ba04c03d4">exec_static</h4>
+
+<p>Syntax: <code>exec_static command arg*</code><br />
+Context: rtmp, server, application</p>
+
+<p>Similar to <code>exec</code> but runs specified command at nginx start.
+Does not support substitutions since has no session context.</p>
+
+<p>类似exec,但是在启动nginx时运行,不支持变量替换。</p>
+
+<pre><code>exec_static ffmpeg -i http://example.com/video.ts -c copy -f flv rtmp://localhost/myapp/mystream;
+</code></pre>
+
+<p><strong>提示：</strong> 我们没有用到这个参数。</p>
+
+<h4 id="exec-kill-signal:a8edd52e082f44f6a206bc3ba04c03d4">exec_kill_signal</h4>
+
+<p>Syntax: <code>exec_kill_signal signal</code><br />
+Context: rtmp, server, application</p>
+
+<p>Sets process termination signal. Default is kill (SIGKILL).
+You can specify numeric or symbolic name (for POSIX.1-1990 signals).</p>
+
+<p>设置进程结束信号,默认SIGKILL,也可以设置数字或符号名。(POSIX.1-1990)</p>
+
+<pre><code>exec_kill_signal term;
+exec_kill_signal usr1;
+exec_kill_signal 3;
+</code></pre>
+
+<p><strong>提示：</strong> 我们没有用到这个参数。</p>
+
+<h4 id="respawn:a8edd52e082f44f6a206bc3ba04c03d4">respawn</h4>
+
+<p>Syntax: <code>respawn on|off</code><br />
+Context: rtmp, server, application</p>
+
+<p>If turned on respawns child process when it&rsquo;s terminated while publishing
+is still on. Default is on;</p>
+
+<p>当发布进行时,子进程被终止会重启子进程，默认开启</p>
+
+<pre><code>respawn off;
+</code></pre>
+
+<p><strong>提示：</strong> 我们没有用到这个参数。</p>
+
+<h4 id="respawn-timeout:a8edd52e082f44f6a206bc3ba04c03d4">respawn_timeout</h4>
+
+<p>Syntax: <code>respawn_timeout timeout</code><br />
+Context: rtmp, server, application</p>
+
+<p>Sets respawn timeout to wait before starting new child instance.
+Default is 5 seconds.</p>
+
+<p>设置重启新子进程的等待时间。</p>
+
+<pre><code>respawn_timeout 10s;
+</code></pre>
+
+<p><strong>提示：</strong> 我们没有用到这个参数。</p>
+
+<h4 id="exec-publish:a8edd52e082f44f6a206bc3ba04c03d4">exec_publish</h4>
+
+<p>Syntax: <code>exec_publish command arg*</code><br />
+Context: rtmp, server, application</p>
+
+<p>Specifies external command with arguments to be executed on
+publish event. Return code is not analyzed. Substitutions of <code>exec</code>
+are supported here as well. In addition <code>args</code> variable is supported
+holding query string arguments.</p>
+
+<p>设置发布时执行外部命令带参数。不分析返回码。支持替换。另外参数支持查询字符串参数。<br />
+<strong>提示：</strong> 我们没有用到这个参数。</p>
+
+<h4 id="exec-play:a8edd52e082f44f6a206bc3ba04c03d4">exec_play</h4>
+
+<p>Syntax: <code>exec_play command arg*</code><br />
+Context: rtmp, server, application</p>
+
+<p>Specifies external command with arguments to be executed on
+play event. Return code is not analyzed. Substitution list
+is the same as for <code>exec_publish</code>.
+设置播放时执行外部命令带参数。不分析返回码。替换列表同exec_publish。<br />
+<strong>提示：</strong> 我们没有用到这个参数。</p>
+
+<h4 id="exec-play-done:a8edd52e082f44f6a206bc3ba04c03d4">exec_play_done</h4>
+
+<p>Syntax: <code>exec_play_done command arg*</code><br />
+Context: rtmp, server, application</p>
+
+<p>Specifies external command with arguments to be executed on
+play_done event. Return code is not analyzed. Substitution list
+is the same as for <code>exec_publish</code>.
+设置播放完调外部命令带参数。不分析返回码。替换列表同exec_publish。<br />
+<strong>提示：</strong> 我们没有用到这个参数。</p>
+
+<h4 id="exec-publish-done:a8edd52e082f44f6a206bc3ba04c03d4">exec_publish_done</h4>
+
+<p>Syntax: <code>exec_publish_done command arg*</code><br />
+Context: rtmp, server, application</p>
+
+<p>Specifies external command with arguments to be executed on
+publish_done event. Return code is not analyzed. Substitution list
+is the same as for <code>exec_publish</code>.
+设置发布完时调用外部命令带参数。不分析返回码。替换列表同exec_publish。<br />
+<strong>提示：</strong> 我们没有用到这个参数。</p>
+
+<h4 id="exec-record-done:a8edd52e082f44f6a206bc3ba04c03d4">exec_record_done</h4>
+
+<p>Syntax: <code>exec_record_done command arg*</code><br />
+Context: rtmp, server, application, recorder</p>
+
+<p>Specifies external command with arguments to be executed when
+recording is finished. Substitution of <code>exec_publish</code> are supported here
+as well as additional variables</p>
+
+<p>设置录制完时执行外部命令。替换列表包含exec_publish的那些，同时支持额外的变量：</p>
+
+<ul>
+<li><code>recorder</code> - recorder name</li>
+<li><code>path</code> - recorded file path (<code>/tmp/rec/mystream-1389499351.flv</code>)</li>
+<li><code>filename</code> - path with directory omitted (<code>mystream-1389499351.flv</code>)</li>
+<li><code>basename</code> - file name with extension omitted (<code>mystream-1389499351</code>)</li>
+<li><code>dirname</code> - directory path (<code>/tmp/rec</code>)</li>
+</ul>
+
+<p>Examples</p>
+
+<pre><code># track client info
+exec_play bash -c &quot;echo $addr $pageurl &gt;&gt; /tmp/clients&quot;;
+exec_publish bash -c &quot;echo $addr $flashver &gt;&gt; /tmp/publishers&quot;;
+
+# convert recorded file to mp4 format
+exec_record_done ffmpeg -y -i $path -acodec libmp3lame -ar 44100 -ac 1 -vcodec libx264 $dirname/$basename.mp4;
+</code></pre>
+
+<p><strong>提示：</strong> 除了这个参数之前的exec_family的其他参数都是写在application{}配置块中，而这个是写在application{}下recorder{}配置块中的，它是针对recorder{}中定义的录制行为执行完之后触发的一个动作。</p>
+
+<p>比如我们可以在record结束之后触发ffmpeg从record到的文件中截图:</p>
+
+<pre><code>recorder rec {
+    record keyframes;
+    record_max_frames 4;
+    record_path /tmp/snapshot;
+    record_interval 30s;
+    exec_record_done /usr/local/ffmpeg/2.8/bin/ffmpeg -i /tmp/snapshot/$name.flv -vframes 1 -an -f rawvideo -ss 00:00:00 -y -f image2 /tmp/snapshot/$name.jpg;
+}
+
+</code></pre>
+
+<h2 id="live:a8edd52e082f44f6a206bc3ba04c03d4">Live</h2>
+
+<h4 id="live-1:a8edd52e082f44f6a206bc3ba04c03d4">live</h4>
+
+<p>Syntax: <code>live on|off</code><br />
+Context: rtmp, server, application</p>
+
+<p>Toggles live mode i.e. one-to-many broadcasting.</p>
+
+<p>开启直播功能。</p>
+
+<pre><code>live on;
+</code></pre>
+
+<p><strong>提示：</strong>  无</p>
+
+<h4 id="meta:a8edd52e082f44f6a206bc3ba04c03d4">meta</h4>
+
+<p>Syntax: <code>meta on|copy|off</code><br />
+Context: rtmp, server, application</p>
+
+<p>Sets metadata sending mode. The value of <code>on</code> makes subscribers
+receive reconstructed metadata packets containing predefined fields like
+width, height etc. The value of <code>copy</code> makes clients receive exact copy of
+publisher metadata block including both standard and specific fields. The
+value of <code>off</code> turns off sending any RTMP metadata to subscribers.
+Defaults to on.</p>
+
+<p>设置元数据发送方式。on:发送重组过的元数据给客户端，其中包含一些预定义的参数，如宽，高等。copy:元数据完全不变的发给客户端。off:不发送元数据给客户端。默认为on</p>
+
+<pre><code>meta copy;
+</code></pre>
+
+<p><strong>提示：</strong> 用默认值就行，我们没有特殊设置。</p>
+
+<h4 id="interleave:a8edd52e082f44f6a206bc3ba04c03d4">interleave</h4>
+
+<p>Syntax: <code>interleave on|off</code><br />
+Context: rtmp, server, application</p>
+
+<p>Toggles interleave mode. In this mode audio and video
+data is transmitted on the same RTMP chunk stream.
+Defaults to off.</p>
+
+<p>设置交错模式。如果打开，音视频数据会在同一个chunk流中传输。默认off</p>
+
+<pre><code>interleave on;
+</code></pre>
+
+<p><strong>提示：</strong> 用默认值就行，我们没有特殊设置。如果要获得更好的音视频同步效果，可以试着打开。<br />
+参见 <a href="https://github.com/arut/nginx-rtmp-module/issues/241">nginx-rtmp-module issue 241</a></p>
+
+<h4 id="wait-key:a8edd52e082f44f6a206bc3ba04c03d4">wait_key</h4>
+
+<p>Syntax: <code>wait_key on|off</code><br />
+Context: rtmp, server, application</p>
+
+<p>Makes video stream start with a key frame. Defaults to off.</p>
+
+<p>设置视频流从关键帧起播，默认off</p>
+
+<pre><code>wait_key on;
+</code></pre>
+
+<p><strong>提示：</strong> 使用默认值，因为从关键帧起播会增加延迟。</p>
+
+<h4 id="wait-video:a8edd52e082f44f6a206bc3ba04c03d4">wait_video</h4>
+
+<p>Syntax: <code>wait_video on|off</code><br />
+Context: rtmp, server, application</p>
+
+<p>Disable audio until first video frame is sent. Defaults to off.
+Can be combined with <code>wait_key</code> to make client receive video
+key frame with all other data following it. However this usually
+increases connection delay. You can tune keyframe interval in your
+encoder to reduce the delay.</p>
+
+<p>在发送视频帧之前不发音频数据。默认off。可以和wait_key配合使用，可以使客户端在收到视频关键帧后才收到随之而来的其他数据(而不是先收到音频数据，这时用户可以听到声音了，但画面还是黑的)。 这样玩通常会增加延迟，但是你可以通过调整编码器的关键帧间隔参数来减小延迟（比如使用ffmpeg的-g参数，就是用来调整关键帧间隔，也就是GOP长度的）。</p>
+
+<p>Recent versions of IE need this option to be enabled for normal playback.</p>
+
+<p>最近版本的IE需要打开这个参数才能正常播放。（不知是哪年的IE,现在应该没问题了，没测过，好久不用IE了。。。）</p>
+
+<pre><code>wait_video on;
+</code></pre>
+
+<p><strong>提示：</strong> 使用默认值，我们不希望增加延迟。</p>
+
+<h4 id="publish-notify:a8edd52e082f44f6a206bc3ba04c03d4">publish_notify</h4>
+
+<p>Syntax: <code>publish_notify on|off</code><br />
+Context: rtmp, server, application</p>
+
+<p>Send <code>NetStream.Play.PublishNotify</code> and <code>NetStream.Play.UnpublishNotify</code> to
+subscribers. Defaults to off.</p>
+
+<p>发送NetStream.Publish.Start和NetStream.Publish.Stop给用户。默认为off。</p>
+
+<pre><code>publish_notify on;
+</code></pre>
+
+<p><strong>提示：</strong> 用默认值就行，我们没有特殊设置。</p>
+
+<h4 id="drop-idle-publisher:a8edd52e082f44f6a206bc3ba04c03d4">drop_idle_publisher</h4>
+
+<p>Syntax: <code>drop_idle_publisher timeout</code><br />
+Context: rtmp, server, application</p>
+
+<p>Drop publisher connection which has been idle (no audio/video data)
+within specified time. Default is off. Note this only works when
+connection is in publish mode (after sending <code>publish</code> command).</p>
+
+<p>终止指定时间内闲置(没有音频/视频数据)的发布连接。默认为 off。注意这个仅仅对于发布模式的连接起作用(发送 publish 命令之后)。</p>
+
+<pre><code>drop_idle_publisher 10s;
+</code></pre>
+
+<p><strong>提示：</strong> 我们设置这个参数为20s,表示当一个发布连接上不发送任何数据到20s后就断掉这个连接。<br />
+参见 <a href="https://github.com/arut/nginx-rtmp-module/issues/374">nginx-rtmp-module issue 374</a></p>
+
+<h4 id="sync:a8edd52e082f44f6a206bc3ba04c03d4">sync</h4>
+
+<p>Syntax: <code>sync timeout</code><br />
+Context: rtmp, server, application</p>
+
+<p>Synchronize audio and video streams. If subscriber bandwidth
+is not enough to receive data at publisher rate, some frames are
+dropped by server. This leads to synchronization problem. When
+timestamp difference exceeds the value specified as <code>sync</code> argument an
+absolute frame is sent fixing that. Default is 300ms.</p>
+
+<p>同步音频和视频流。如果用户带宽不足以以发布端的码率来接收数据，服务器会丢弃一些帧。这将导致同步问题。当时间戳差超过 sync 指定的值，将会发送一个绝对帧来解决这个问题。默认为 300 ms。</p>
+
+<pre><code>sync 10ms;
+</code></pre>
+
+<p><strong>提示：</strong> 用默认值就行，我们没有特殊设置。但是隐隐感觉以后会用上 x_x</p>
+
+<h4 id="play-restart:a8edd52e082f44f6a206bc3ba04c03d4">play_restart</h4>
+
+<p>Syntax: <code>play_restart on|off</code><br />
+Context: rtmp, server, application</p>
+
+<p>If enabled nginx-rtmp sends NetStream.Play.Start and NetStream.Play.Stop
+to each subscriber every time publisher starts or stops publishing. If disabled
+each subscriber receives those notifications only at the start and end of
+playback. Default is off.</p>
+
+<p>使nginx-rtmp能够在发布启动或停止时发送 NetStream.Play.Start 和 NetStream.Play.Stop 到每个用户。如果关闭的话，那么每个用户就只能在回放的开始和结束时收到这些通知了。默认为 on。</p>
+
+<pre><code>play_restart off;
+</code></pre>
+
+<p><strong>提示：</strong> 用默认值就行，我们没有特殊设置。<br />
+参见 <a href="https://github.com/arut/nginx-rtmp-module/issues/397">nginx-rtmp-module issue 397</a></p>
+
+<h4 id="idle-streams:a8edd52e082f44f6a206bc3ba04c03d4">idle_streams</h4>
+
+<p>Syntax: <code>idle_streams on|off</code><br />
+Context: rtmp, server, application</p>
+
+<p>If disabled nginx-rtmp prevents subscribers from connecting to idle/nonexistent
+live streams and disconnects all subscribers when stream publisher disconnects.
+Default is on.</p>
+
+<p>当设置为off时，nginx-rtmp禁止客户端连接闲置(idle)或不存在(nonexistent)的直播流，并且在发布者连接断开后会把所有接收者连接也都断掉。默认是on。</p>
+
+<pre><code>idle_streams off;
+</code></pre>
+
+<p><strong>提示：</strong> 用默认值就行，我们没有特殊设置。</p>
+
+<h2 id="record:a8edd52e082f44f6a206bc3ba04c03d4">Record</h2>
+
+<h4 id="record-1:a8edd52e082f44f6a206bc3ba04c03d4">record</h4>
+
+<p>syntax: <code>record [off|all|audio|video|keyframes|manual]*</code><br />
+context: rtmp, server, application, recorder</p>
+
+<p>Toggles record mode. Stream can be recorded in flv file. This directive
+specifies what exactly should be recorded:</p>
+
+<p>切换录制模式。流可以被记录到 flv 文件。本指令指定应该被记录的：</p>
+
+<ul>
+<li>off - no recording at all  啥也不录</li>
+<li>all - audio &amp; video (everything) 啥都录</li>
+<li>audio - audio 音频</li>
+<li>video - video 视频</li>
+<li>keyframes - only key video frames 只录视频关键帧</li>
+<li>manual - never start recorder automatically, use control interface to start/stop 不自动启动录制，而是使用控制接口启动/停止</li>
+</ul>
+
+<p>There can be any compatible combination of keys in a single record directive.<br />
+在单个记录指令中可以有任何兼容的组合键。</p>
+
+<pre><code>record all;
+
+record audio keyframes;
+</code></pre>
+
+<p><strong>提示：</strong> record{}配置中的参数都是实实在在的，可以测试观察到效果的，不像前面好多参数看完还特么云里雾里的。</p>
+
+<p>我们可以使用record指定只录制关键帧，然后用于生成截图，可以定期自动生成截图，也可以通过设置成manual，然后通过http control给nginx-rtmp发送命令来手工获取截图。</p>
+
+<pre><code>recorder snapshot {
+    record keyframes manual;
+    record_max_frames 1;
+    record_path /tmp/snapshot;
+    exec_record_done /usr/local/ffmpeg/2.8/bin/ffmpeg -i /tmp/snapshot/$name.flv -vframes 1 -an -f rawvideo -ss 00:00:00 -y -f image2 /tmp/snapshot/$name.jpg;
+}
+
+</code></pre>
+
+<h4 id="record-path:a8edd52e082f44f6a206bc3ba04c03d4">record_path</h4>
+
+<p>syntax: <code>record_path path</code><br />
+context: rtmp, server, application, recorder</p>
+
+<p>Specifies record path to put recorded flv files to.<br />
+指定录制flv文件的路径。</p>
+
+<pre><code>record_path /tmp/rec;
+</code></pre>
+
+<p><strong>提示：</strong> 根据需要设置。</p>
+
+<h4 id="record-suffix:a8edd52e082f44f6a206bc3ba04c03d4">record_suffix</h4>
+
+<p>syntax: <code>record_suffix value</code><br />
+context: rtmp, server, application, recorder</p>
+
+<p>Sets record file suffix. Defaults to &lsquo;.flv&rsquo;.</p>
+
+<pre><code>record_suffix _recorded.flv;
+</code></pre>
+
+<p>Record suffix can be a pattern in <code>strftime</code> format.
+The following directive</p>
+
+<pre><code>record_suffix -%d-%b-%y-%T.flv;
+</code></pre>
+
+<p>will produce files of the form <code>mystream-24-Apr-13-18:23:38.flv</code>.
+All supported <code>strftime</code> format options can be found on
+<a href="http://pubs.opengroup.org/onlinepubs/009695399/functions/strftime.html">strftime man page</a>.</p>
+
+<p>设置录制文件名后缀,默认 flv。录制后缀可以是strftime格式。 如下格式生成类似-24- Apr-13-18:23:38.flv。 strftime格式可以从手册 <a href="http://pubs.opengroup.org/onlinepubs/009695399/functions/strftime.html">strftime man page</a> 找到</p>
+
+<p><strong>提示：</strong> 根据需要设置。</p>
+
+<h4 id="record-unique:a8edd52e082f44f6a206bc3ba04c03d4">record_unique</h4>
+
+<p>syntax: <code>record_unique on|off</code><br />
+context: rtmp, server, application, recorder</p>
+
+<p>If turned on appends current timestamp to recorded files. Otherwise the same file
+is re-written each time new recording takes place. Default is off.</p>
+
+<p>开启追加当前时间戳到录制文件中。否则同一个文件多次录制时会被覆盖。默认off。</p>
+
+<pre><code>record_unique on;
+</code></pre>
+
+<p><strong>提示：</strong> 根据需要设置。</p>
+
+<h4 id="record-append:a8edd52e082f44f6a206bc3ba04c03d4">record_append</h4>
+
+<p>syntax: <code>record_append on|off</code><br />
+context: rtmp, server, application, recorder</p>
+
+<p>Toggles file append mode. When turned on recorder appends new data to the old file
+or creates it when it&rsquo;s missing. There&rsquo;s no time gap between the old data and the new
+data in file. Default is off.</p>
+
+<p>设置文件追加模式。如果打开，是将新录制的数据追加到已有文件的末尾或者没有就创建这个文件。在文件中新老数据之间没有间隔。默认off。</p>
+
+<pre><code>record_append on;
+</code></pre>
+
+<p><strong>提示：</strong> 根据需要设置。</p>
+
+<h4 id="record-lock:a8edd52e082f44f6a206bc3ba04c03d4">record_lock</h4>
+
+<p>syntax: <code>record_lock on|off</code><br />
+context: rtmp, server, application, recorder</p>
+
+<p>When turned on currently recorded file gets locked with <code>fcntl</code> call.
+That can be checked from elsewhere to find out which file is being recorded.
+Default is off.</p>
+
+<p>开启时文件会被fcntl调用锁定，可以在其他地方发现哪个文件正在被录制。默认off。</p>
+
+<pre><code>record_lock on;
+</code></pre>
+
+<p>On FreeBSD you can use <code>flock</code> tool to check that. On Linux <code>flock</code> and <code>fcntl</code>
+are unrelated so you are left with writing a simple script checking file lock status.
+Here&rsquo;s an example of such script <code>isunlocked.py</code>.</p>
+
+<p>在 FreeBSD 上你可以使用 flock 工具检查。在 Linux 上 flock 和 fcntl 无关，因此你需要去写一个简单的脚本来检查文件的锁定状态。以下 isunlocked.py 是一个这样的脚本的示例。</p>
+
+<pre><code>#!/usr/bin/python
+
+import fcntl, sys
+
+sys.stderr.close()
+fcntl.lockf(open(sys.argv[1], &quot;a&quot;), fcntl.LOCK_EX|fcntl.LOCK_NB)
+</code></pre>
+
+<p><strong>提示：</strong> 不知道什么情况下需要，用默认值就好。</p>
+
+<h4 id="record-max-size:a8edd52e082f44f6a206bc3ba04c03d4">record_max_size</h4>
+
+<p>syntax: <code>record_max_size size</code><br />
+context: rtmp, server, application, recorder</p>
+
+<p>Set maximum recorded file size.</p>
+
+<p>设置录制文件最大值。</p>
+
+<pre><code>record_max_size 128K;
+</code></pre>
+
+<p><strong>提示：</strong> 根据需要设置。</p>
+
+<h4 id="record-max-frames:a8edd52e082f44f6a206bc3ba04c03d4">record_max_frames</h4>
+
+<p>syntax: <code>record_max_frames nframes</code><br />
+context: rtmp, server, application, recorder</p>
+
+<p>Sets maximum number of video frames per recorded file.</p>
+
+<p>设置每个录制文件的视频帧的最大数量。</p>
+
+<pre><code>record_max_frames 2;
+</code></pre>
+
+<p><strong>提示：</strong> 根据需要设置。</p>
+
+<h4 id="record-interval:a8edd52e082f44f6a206bc3ba04c03d4">record_interval</h4>
+
+<p>syntax: <code>record_interval time</code><br />
+context: rtmp, server, application, recorder</p>
+
+<p>Restart recording after this number of (milli)seconds.
+Off by default. Zero means no delay between recordings. If
+record_unique is off then all record fragments are written to the
+same file. Otherwise timestamp is appended which makes files
+differ (given record_interval is longer than 1 second).</p>
+
+<p>设置录制的间隔。默认off。如果设为0表示连续录制。同时，如果record_unique设为off的话，那每次录制都会写入同一个文件，而如果record_unique设为on时，每次录制都会生成一个以时间戳为后缀的新文件(间隔设置要大于1s)。</p>
+
+<pre><code>record_interval 1s;
+
+record_interval 15m;
+</code></pre>
+
+<p><strong>提示：</strong> 根据需要设置，一般配合record_unique on一起使用。</p>
+
+<h4 id="recorder:a8edd52e082f44f6a206bc3ba04c03d4">recorder</h4>
+
+<p>syntax: <code>recorder name {...}</code><br />
+context: application</p>
+
+<p>Create recorder block. Multiple recorders can be created withing
+single application. All the above mentioned recording-related
+directives can be specified in <code>recorder{}</code> block. All settings
+are inherited from higher levels.</p>
+
+<p>创建录制配置块。一个application{}中可以创建多个recorder{}块，所有上边提到的指令都可以设置在recorder{}块里。继承高层次中的所有设置。</p>
+
+<pre><code>application {
+    live on;
+
+    # default recorder
+    record all;
+    record_path /var/rec;
+
+    recorder audio {
+        record audio;
+        record_suffix .audio.flv;
+    }
+
+    recorder chunked {
+        record all;
+        record_interval 15s;
+        record_path /var/rec/chunked;
+    }
+}
+</code></pre>
+
+<p><strong>提示：</strong> 根据需要设置。</p>
+
+<h4 id="record-notify:a8edd52e082f44f6a206bc3ba04c03d4">record_notify</h4>
+
+<p>syntax: <code>record_notify on|off</code><br />
+context: rtmp, server, application, recorder</p>
+
+<p>Toggles sending NetStream.Record.Start and NetStream.Record.Stop
+status messages (onStatus) to publisher when specific recorder
+starts or stops recording file. Status description field holds
+recorder name (empty for default recorder). Off by default.</p>
+
+<p>切换当定义录制启动或停止文件时发送 NetStream.Record.Start 和 NetStream.Record.Stop 状态信息(onStatus)到发布者。状态描述字段保存录制的名字(默认录制的话为空)。默认为 off。</p>
+
+<pre><code>recorder myrec {
+    record all manual;
+    record_path /var/rec;
+    record_notify on;
+}
+</code></pre>
+
+<p><strong>提示：</strong> 目前没用到，用默认值。</p>
+
+<h2 id="video-on-demand:a8edd52e082f44f6a206bc3ba04c03d4">Video on demand</h2>
+
+<h4 id="play:a8edd52e082f44f6a206bc3ba04c03d4">play</h4>
+
+<p>Syntax: <code>play dir|http://loc [dir|http://loc]*</code><br />
+Context: rtmp, server, application</p>
+
+<p>Play flv or mp4 file from specified directory or HTTP location.
+If the argument is prefixed with <code>http://</code> then it is assumed
+that file should be downloaded from remote http location before
+playing. Note playing is not started until the whole file is
+downloaded. You can use local nginx to cache files on local machine.</p>
+
+<p>播放指定文件夹或HTTP路径上的FLV或MP4文件,http://表示下载播放远程地址的文件。 注意当整个文件下载完之后才会开始播放。你可以在本地使用nginx来缓存。</p>
+
+<p>Multiple play locations can be specified in a single <code>play</code> directive.
+When multiple <code>play</code> directives are specified the location lists
+are merged and inherited from higher scopes. An attempt to play
+each location is made until a successful location is found.
+If such location is not found error status is sent to client.</p>
+
+<p>同一个 play 指令可以定义多个播放地址。当多个 play 指令定义时，地址列表将被合并，并进行从更高域中继承。尝试播放每一个地址，直到发现一个成功的地址。如果没有找到成功地址，将发送错误状态到客户端。</p>
+
+<p>Indexed FLVs are played with random seek capability.
+Unindexed FLVs are played with seek/pause disabled
+(restart-only mode). Use FLV indexer (for example, yamdi)
+for indexing.</p>
+
+<p>索引的 FLV 播放具有随机查找能力。没有索引的 FLV 则不具备查找/暂停能力(重播模式)。使用 FLV 索引器(比如 yamdi)来编索引。</p>
+
+<p>If you play FLVs recorded with the <code>record</code> directive please do not
+forget to index them before playing. They are created unindexed.</p>
+
+<p>record模块录制出来的flv文件是未经index处理的，如果你要想播放这些文件(随机拖动)，请别忘了自己index一下。</p>
+
+<p>Mp4 files can only be played if both video and audio codec are supported
+by RTMP. The most common case is H264/AAC.</p>
+
+<p>mp4 文件只有在音频和视频编码都被 RTMP 支持时才可以播放。最常见的情况是 H264/AAC。</p>
+
+<pre><code>application vod {
+    play /var/flvs;
+}
+
+application vod_http {
+    play http://myserver.com/vod;
+}
+
+application vod_mirror {
+    # try local location first, then access remote location
+    play /var/local_mirror http://myserver.com/vod;
+}
+</code></pre>
+
+<p>Playing /var/flvs/dir/file.flv:</p>
+
+<pre><code>ffplay rtmp://localhost/vod//dir/file.flv
+</code></pre>
+
+<p>The two slashes after <code>vod</code> make ffplay use <code>vod</code> and application name
+and the rest of the url as playpath.</p>
+
+<p>播放vod时，自己试试吧，可能需要在application名字后加两个反斜线才能播。</p>
+
+<p>栗子：</p>
+
+<pre><code># Video on demand
+application vod {
+    play /tmp/Videos;
+}
+
+# Video on demand over HTTP
+application vod_http {
+    play http://localhost:8080/vod/;
+}
+</code></pre>
+
+<p>将flv文件拷贝到/tmp/Videos目录下，<br />
+播放/tmp/Videos/test.flv  用 rtmp://localhost/vod/test.flv<br />
+播放/tmp/Videos/subfolder/test.flv的话用rtmp://localhost/vod//subfolder/test.flv</p>
+
+<p><strong>提示：</strong> VOD是一个古老而现在又没什么卵用的模块，你喜欢就好。</p>
+
+<h4 id="play-temp-path:a8edd52e082f44f6a206bc3ba04c03d4">play_temp_path</h4>
+
+<p>Syntax: <code>play_temp_path dir</code><br />
+Context: rtmp, server, application</p>
+
+<p>Sets location where remote VOD files are stored before playing.
+Default is <code>/tmp</code>;</p>
+
+<p>在播放之前设置远程存储的 VOD 文件路径。默认为 /tmp。</p>
+
+<pre><code>play_temp_path /www;
+play http://example.com/videos;
+</code></pre>
+
+<p><strong>提示：</strong> 根据需要设置。</p>
+
+<h4 id="play-local-path:a8edd52e082f44f6a206bc3ba04c03d4">play_local_path</h4>
+
+<p>Syntax: <code>play_local_path dir</code><br />
+Context: rtmp, server, application</p>
+
+<p>Sets location where remote VOD files copied from <code>play_temp_path</code>
+directory after they are completely downloaded. Empty value
+disables the feature. By default it&rsquo;s empty. The feature can be used
+for caching remote files locally.</p>
+
+<p>This path should be on the same device as <code>play_temp_path</code>.</p>
+
+<p>设置远程点播文件存储路径,从临时路径拷贝过来。空值的话禁用此功能。默认为空值。这个功能可以用于缓存远程文件在本地。<br />
+这一路径应该和 play_temp_path 处于同一设备。</p>
+
+<pre><code># search file in /tmp/videos.
+# if not found play from remote location
+# and store in /tmp/videos
+
+play_local_path /tmp/videos;
+play /tmp/videos http://example.com/videos;
+</code></pre>
+
+<p><strong>提示：</strong> 根据需要设置。</p>
+
+<h2 id="relay:a8edd52e082f44f6a206bc3ba04c03d4">Relay</h2>
+
+<h4 id="pull:a8edd52e082f44f6a206bc3ba04c03d4">pull</h4>
+
+<p>Syntax: <code>pull url [key=value]*</code><br />
+Context: application</p>
+
+<p>Creates pull relay. Stream is pulled from remote machine
+and becomes available locally. It only happens when at least
+one player is playing the stream locally.</p>
+
+<p>创建 pull 中继。流将从远程服务器上拉下来，成为本地可用的。仅当至少有一个播放器正在播放本地流时发生。</p>
+
+<p>Url syntax: <code>[rtmp://]host[:port][/app[/playpath]]</code>. If application
+is missing then local application name is used. If playpath is missing
+then current stream name is used instead.</p>
+
+<p>Url 语法：[rtmp://]host[:port][/app[/playpath]]。如果不指定 application 名字那么将会使用本地 application 名。如果不指定 playpath 那么就是用当前流的名字。</p>
+
+<p>The following parameters are supported:
+* app - explicit application name 明确指定application名
+* name - local stream name to bind relay to; if empty or non-specified then
+all local streams within application are pulled 捆绑到 relay 的本地流名字。如果为空或者没有定义，那么将会使用 application 中的所有本地流。
+* tcUrl - auto-constructed if empty  如果为空的话自动构建。
+* pageUrl - page url to pretend 模拟页面 url。
+* swfUrl - swf url to pretend 模拟 swf url。
+* flashVer - flash version to pretend, default is &lsquo;LNX.11,1,102,55&rsquo; 模拟 flash 版本，默认为 &lsquo;LNX.11,1,102,55&rsquo;。
+* playPath - remote play path 远程播放地址。
+* live - toggles special behavior for live streaming, values: 0,1 切换直播特殊行为，值：0,1。
+* start - start time in seconds 开始时间。
+* stop - stop time in seconds 结束时间。
+* static - makes pull static, such pull is created at nginx start 创建静态 pull，这样的 pull 在 nginx 启动时创建。</p>
+
+<p>If a value for a parameter contains spaces then you should use quotes around
+the <strong>WHOLE</strong> key=value pair like this : <code>'pageUrl=FAKE PAGE URL'</code>.</p>
+
+<p>如果某参数的值包含空格，那么你应该在整个 key=value 对周围使用引号，比如：<code>'pageUrl=FAKE PAGE URL'</code>。</p>
+
+<pre><code>pull rtmp://cdn.example.com/main/ch?id=12563 name=channel_a;
+
+pull rtmp://cdn2.example.com/another/a?b=1&amp;c=d pageUrl=http://www.example.com/video.html swfUrl=http://www.example.com/player.swf live=1;
+
+pull rtmp://cdn.example.com/main/ch?id=12563 name=channel_a static;
+</code></pre>
+
+<p><strong>提示：</strong> 这组中继指令在nginx-rtmp组网时应该会用到，但是一直听说nginx-rtmp对于大规模组网支持的不够好，自己也没机会测试，以后如果有机会测试，会补上。</p>
+
+<h4 id="push:a8edd52e082f44f6a206bc3ba04c03d4">push</h4>
+
+<p>Syntax: <code>push url [key=value]*</code><br />
+Context: application</p>
+
+<p>Push has the same syntax as pull. Unlike pull push directive publishes stream to remote server.</p>
+
+<p>push 的语法和 pull 一样。不同于 pull 指令的是 push 推送发布流到远程服务器。</p>
+
+<p><strong>提示：</strong> 根据需要设置。</p>
+
+<h4 id="push-reconnect:a8edd52e082f44f6a206bc3ba04c03d4">push_reconnect</h4>
+
+<p>Syntax: <code>push_reconnect time</code><br />
+Context: rtmp, server, application</p>
+
+<p>Timeout to wait before reconnecting pushed connection after disconnect. Default is 3 seconds.</p>
+
+<p>在断开连接后，在 push 重新连接前等待的时间。默认为 3 秒。</p>
+
+<pre><code>push_reconnect 1s;
+</code></pre>
+
+<p><strong>提示：</strong> 根据需要设置。</p>
+
+<h4 id="session-relay:a8edd52e082f44f6a206bc3ba04c03d4">session_relay</h4>
+
+<p>Syntax: <code>session_relay on|off</code><br />
+Context: rtmp, server, application</p>
+
+<p>Toggles session relay mode. In this mode relay is destroyed when connection is closed.
+When the setting is off relay is destroyed when stream is closed so that another relay
+could possibly be created later. Default is off.</p>
+
+<p>切换会话 relay 模式。在这种模式下连接关闭时 relay 销毁。当设置为 off 时，流关闭，relay 销毁，这样子以后另一个 relay 可以被创建。默认为 off。</p>
+
+<pre><code>session_relay on;
+</code></pre>
+
+<p><strong>提示：</strong> 根据需要设置。</p>
+
+<h2 id="notify:a8edd52e082f44f6a206bc3ba04c03d4">Notify</h2>
+
+<h4 id="on-connect:a8edd52e082f44f6a206bc3ba04c03d4">on_connect</h4>
+
+<p>Syntax: <code>on_connect url</code><br />
+Context: rtmp, server</p>
+
+<p>Sets HTTP connection callback. When clients issues connect command
+an HTTP request is issued asynchronously and command processing is
+suspended until it returns result code. If HTTP 2xx code is returned
+then RTMP session continues. The code of 3xx makes RTMP redirect
+to another application whose name is taken from <code>Location</code> HTTP
+response header. Otherwise connection is dropped.</p>
+
+<p>设置 HTTP 连接回调。当客户端发起一个连接命令时，一个 HTTP 请求异步发送，命令处理将被暂停,直到它返回结果代码。当 HTTP 2XX 码(成功状态码)返回时，RTMP 会话继续。返回码 3XX (重定向状态码)会使 RTMP 重定向到另一个从 HTTP 响应头的 <code>Location</code> 里获取到的 application。否则(其他状态码)连接丢弃。</p>
+
+<p>Note this directive is not allowed in application scope since
+application is still unknown at connection stage.</p>
+
+<p>注意这一指令在 application 域是不允许的，因为 application 在连接阶段还是未知的。</p>
+
+<p>HTTP request receives a number of arguments. POST method is used with
+application/x-www-form-urlencoded MIME type. The following arguments are
+passed to caller:</p>
+
+<p>HTTP 请求接收到一些参数。使用MIME的 application/x-www-form-urlencoded 编码方式的POST方法。以下参数将被传给调用者：</p>
+
+<ul>
+<li>call=connect</li>
+<li>addr - client IP address :客户端IP地址</li>
+<li>app - application name   :application的名字</li>
+<li>flashVer - client flash version  :客户端flash版本号</li>
+<li>swfUrl - client swf url :客户端swf url</li>
+<li>tcUrl - tcUrl             :客户端url</li>
+<li>pageUrl - client page url :客户端页面url</li>
+</ul>
+
+<p>In addition to the above mentioned items all arguments passed explicitly to
+connect command are also sent with the callback. You should distinguish
+connect arguments from play/publish arguments. Players usually have a special
+way of setting connection string separate from play/publish stream name.
+As an example here&rsquo;s how these arguments are set in JWPlayer</p>
+
+<p>除了上述参数以外，所有显式传递给连接命令的参数也由回调发送。你应该将连接参数和 play/publish 参数区分开。播放器常常有独特的方式设置连接字符串不同于 play/publish 流名字。这里是 JWPayer 是如何设置这些参数的一个示例：</p>
+
+<pre><code>...
+streamer: &quot;rtmp://localhost/myapp?connarg1=a&amp;connarg2=b&quot;,
+file: &quot;mystream?strarg1=c&amp;strarg2=d&quot;,
+...
+</code></pre>
+
+<p>Ffplay (with librtmp) example</p>
+
+<pre><code>ffplay &quot;rtmp://localhost app=myapp?connarg1=a&amp;connarg2=b playpath=mystream?strarg1=c&amp;strarg2=d&quot;
+</code></pre>
+
+<p>Usage example</p>
+
+<pre><code>on_connect http://example.com/my_auth;
+</code></pre>
+
+<p>Redirect example</p>
+
+<pre><code>location /on_connect {
+    if ($arg_flashver != &quot;my_secret_flashver&quot;) {
+        rewrite ^.*$ fallback? permanent;
+    }
+    return 200;
+}
+</code></pre>
+
+<p><strong>提示：</strong> 没用到这个，也没测试过，等需要用到再说。</p>
+
+<h4 id="on-play:a8edd52e082f44f6a206bc3ba04c03d4">on_play</h4>
+
+<p>Syntax: <code>on_play url</code><br />
+Context: rtmp, server, application</p>
+
+<p>Sets HTTP play callback. Each time a clients issues play command
+an HTTP request is issued asynchronously and command processing is
+suspended until it returns result code. HTTP result code is then
+analyzed.</p>
+
+<p>设置 HTTP 播放回调。每次一个客户分发播放命令时，一个 HTTP 请求异步发送，命令处理会挂起 - 直到它返回结果码。之后再解析 HTTP 结果码。</p>
+
+<ul>
+<li>HTTP 2xx code continues RTMP session</li>
+<li>HTTP 3xx redirects RTMP to another stream whose name is taken from
+<code>Location</code> HTTP response header. If new stream name is started with <code>rtmp://</code>
+then remote relay is created instead. Relays require that IP address is
+specified instead of domain name and only work with nginx versions
+greater than 1.3.10. See also <code>notify_relay_redirect</code>.</li>
+
+<li><p>Otherwise RTMP connection is dropped</p>
+
+<p>HTTP 2XX 返回码的话继续 RTMP 会话。<br />
+HTTP 3XX 返回码的话 重定向 RTMP 到另一个流，这个流的名字在 HTTP 返回头的 Location 获取。如果新流的名字起始于 rtmp:// 然后远程 relay 会被创建。relay 要求 IP 地址是指定的而不是域名，并且只工作在 1.3.10 版本以上的 nginx。另请参考 notify_relay_redirect。<br />
+其他返回码的话 RTMP 连接丢弃。</p></li>
+</ul>
+
+<p>Redirect example</p>
+
+<pre><code>http {
+    ...
+    location /local_redirect {
+        rewrite ^.*$ newname? permanent;
+    }
+    location /remote_redirect {
+        # no domain name here, only ip
+        rewrite ^.*$ rtmp://192.168.1.123/someapp/somename? permanent;
+    }
+    ...
+}
+
+rtmp {
+    ...
+    application myapp1 {
+        live on;
+        # stream will be redirected to 'newname'
+        on_play http://localhost:8080/local_redirect;
+    }
+    application myapp2 {
+        live on;
+        # stream will be pulled from remote location
+        # requires nginx &gt;= 1.3.10
+        on_play http://localhost:8080/remote_redirect;
+    }
+    ...
+}
+</code></pre>
+
+<p>HTTP request receives a number of arguments. POST method is used with
+application/x-www-form-urlencoded MIME type. The following arguments are
+passed to caller:
+* call=play
+* addr - client IP address
+* clientid - nginx client id (displayed in log and stat)
+* app - application name
+* flashVer - client flash version
+* swfUrl - client swf url
+* tcUrl - tcUrl
+* pageUrl - client page url
+* name - stream name*</p>
+
+<p>这些参数和上一条一样。</p>
+
+<p>In addition to the above mentioned items all arguments passed explicitly to
+play command are also sent with the callback. For example if stream is
+accessed with the url <code>rtmp://localhost/app/movie?a=100&amp;b=face&amp;foo=bar</code> then
+<code>a</code>, <code>b</code> &amp; <code>foo</code> are also sent with callback.</p>
+
+<p>除了上述参数之外其他所有播放命令参数显式地发送回调。例如如果一个流由 url rtmp://localhost/app/movie?a=100&amp;b=face&amp;foo=bar 访问，然后呢 a,b 和 foo 发送回调。</p>
+
+<pre><code>on_play http://example.com/my_callback;
+</code></pre>
+
+<p><strong>提示：</strong> 我们在on_play设置了回调。</p>
+
+<h4 id="on-publish:a8edd52e082f44f6a206bc3ba04c03d4">on_publish</h4>
+
+<p>Syntax: <code>on_publish url</code><br />
+Context: rtmp, server, application</p>
+
+<p>The same as on_play above with the only difference that this directive sets
+callback on publish command. Instead of remote pull push is performed in
+this case.</p>
+
+<p>同上面提到的 on_play 一样，唯一的不同点在于这个指令在发布命令设置回调。不同于远程 pull，push 在这里是可以的。</p>
+
+<p><strong>提示：</strong> 我们在on_publish设置了回调。</p>
+
+<h4 id="on-done:a8edd52e082f44f6a206bc3ba04c03d4">on_done</h4>
+
+<p>Syntax: <code>on_done url</code><br />
+Context: rtmp, server, application</p>
+
+<p>Sets play/publish terminate callback. All the above applies here. However
+HTTP status code is not checked for this callback.</p>
+
+<p>设置播放/发布禁止回调。上述所有适用于此。但这个回调并不检查 HTTP 状态码。</p>
+
+<p><strong>提示：</strong> 我们没有用到这个。</p>
+
+<h4 id="on-play-done:a8edd52e082f44f6a206bc3ba04c03d4">on_play_done</h4>
+
+<p>Syntax: <code>on_play_done url</code><br />
+Context: rtmp, server, application</p>
+
+<p>Same behavior as <code>on_done</code> but only for play end event.</p>
+
+<p>等同于 on_done 的表现，但只适用于播放结束事件。</p>
+
+<p><strong>提示：</strong> 我们没有用到这个。</p>
+
+<h4 id="on-publish-done:a8edd52e082f44f6a206bc3ba04c03d4">on_publish_done</h4>
+
+<p>Syntax: <code>on_publish_done url</code><br />
+Context: rtmp, server, application</p>
+
+<p>Same behavior as <code>on_done</code> but only for publish end event.</p>
+
+<p>等同于 on_done 的表现，但只适用于发布结束事件。</p>
+
+<p><strong>提示：</strong> 我们在on_publish_done设置了回调。</p>
+
+<h4 id="on-record-done:a8edd52e082f44f6a206bc3ba04c03d4">on_record_done</h4>
+
+<p>syntax: <code>on_record_done url</code><br />
+context: rtmp, server, application, recorder</p>
+
+<p>Set record_done callback. In addition to common HTTP callback
+variables it receives the following values
+* recorder - recorder name in config or empty string for inline recorder
+* path - recorded file path</p>
+
+<p>设置 record_done 回调。除了普通 HTTP 回调参数它还接受：recorder名字和录制文件路径这两个参数。</p>
+
+<p>Example</p>
+
+<pre><code>on_record_done http://example.com/recorded;
+</code></pre>
+
+<p><strong>提示：</strong> 我们没有用到这个。</p>
+
+<h4 id="on-update:a8edd52e082f44f6a206bc3ba04c03d4">on_update</h4>
+
+<p>syntax: <code>on_update url</code><br />
+context: rtmp, server, application</p>
+
+<p>Set update callback. This callback is called with period of
+<code>notify_update_timeout</code>. If a request returns HTTP result other
+than 2xx connection is terminated. This can be used to synchronize
+expired sessions. Two additional arguments <code>time</code> and <code>timestamp</code>
+are passed to this handler:
+* <code>time</code> is the number of seconds since play/publish call
+* <code>timestamp</code> is RTMP timestamp of the last audio/video packet sent to the client</p>
+
+<p>设置 update 回调。这个回调会在 notify_update_timeout 期间调用。如果一个请求返回结果不是 2XX，连接禁止。这可以用来同步过期的会话。追加 time 参数即播放/发布调用后的秒数会被发送给处理程序。</p>
+
+<p>You can use <code>timestamp</code> argument to individually limit playback duration
+for each user.</p>
+
+<pre><code>on_update http://example.com/update;
+</code></pre>
+
+<p><strong>提示：</strong> 我们设置了on_update回调。</p>
+
+<h4 id="notify-update-timeout:a8edd52e082f44f6a206bc3ba04c03d4">notify_update_timeout</h4>
+
+<p>syntax: <code>notify_update_timeout timeout</code><br />
+context: rtmp, server, application</p>
+
+<p>Sets timeout between <code>on_update</code> callbacks. Default is 30 seconds.</p>
+
+<p>在 on_update 回调之间的超时设置。默认为 30 秒。</p>
+
+<pre><code>notify_update_timeout 10s;
+on_update http://example.com/update;
+</code></pre>
+
+<p><strong>提示：</strong> 我们设置为1s。</p>
+
+<h4 id="notify-update-strict:a8edd52e082f44f6a206bc3ba04c03d4">notify_update_strict</h4>
+
+<p>syntax: <code>notify_update_strict on|off</code><br />
+context: rtmp, server, application</p>
+
+<p>Toggles strict mode for <code>on_update</code> callbacks. Default is off.
+When turned on all connection errors, timeouts as well as HTTP parse
+errors and empty responses are treated as update failures and lead
+to connection termination. When off only valid HTTP response codes
+other that 2xx lead to failure.</p>
+
+<p>切换 on_update 回调严格模式。默认为 off。当设置为 on 时，所有连接错误，超时以及 HTTP 解析错误和空返回会被视为更新失败并导致连接终止。当设置为 off 时只有 HTTP 返回码不同于 2XX 时导致失败。</p>
+
+<pre><code>notify_update_strict on;
+on_update http://example.com/update;
+</code></pre>
+
+<p><strong>提示：</strong> 我们没有用到这个。</p>
+
+<h4 id="notify-relay-redirect:a8edd52e082f44f6a206bc3ba04c03d4">notify_relay_redirect</h4>
+
+<p>syntax: <code>notify_relay_redirect on|off</code><br />
+context: rtmp, server, application</p>
+
+<p>Enables local stream redirect for <code>on_play</code> and <code>on_publish</code> remote
+redirects. New stream name is MD5 hash of RTMP URL used for remote redirect.
+Default is off.</p>
+
+<p>使本地流可以重定向为 on_play 和 on_publish 远程重定向。新的流名字是 RTMP URL 用于远程重定向。默认为 off。</p>
+
+<pre><code>notify_relay_redirect on;
+</code></pre>
+
+<p><strong>提示：</strong> 我们没有用到这个。</p>
+
+<h4 id="notify-method:a8edd52e082f44f6a206bc3ba04c03d4">notify_method</h4>
+
+<p>syntax: <code>notify_method get|post</code><br />
+context: rtmp, server, application, recorder</p>
+
+<p>Sets HTTP method for notifications. Default is POST with
+<code>application/x-www-form-urlencoded</code> content type. In certain cases
+GET is preferable, for example if you plan to handle the call
+in <code>http{}</code> section of nginx. In this case you can use <code>arg_*</code> variables
+to access arguments.</p>
+
+<p>设置 HTTP 方法通知。默认是带有 application/x-www-form-urlencoded 的 POST 内容类型。在一些情况下 GET 更好，例如如果你打算在 nginx 的 http{} 部分处理调用。在这种情况下你可以使用 arg_* 变量去访问参数。</p>
+
+<pre><code>notify_method get;
+</code></pre>
+
+<p>With GET method handling notifications in <code>http{}</code> section can be done this way</p>
+
+<pre><code>location /on_play {
+    if ($arg_pageUrl ~* localhost) {
+        return 200;
+    }
+    return 500;
+}
+</code></pre>
+
+<p><strong>提示：</strong> 我们没有用到这个。</p>
+
+<h2 id="hls:a8edd52e082f44f6a206bc3ba04c03d4">HLS</h2>
+
+<h4 id="hls-1:a8edd52e082f44f6a206bc3ba04c03d4">hls</h4>
+
+<p>Syntax: <code>hls on|off</code><br />
+Context: rtmp, server, application</p>
+
+<p>Toggles HLS on the application.</p>
+
+<p>打开HLS直播功能</p>
+
+<pre><code>hls on;
+hls_path /tmp/hls;
+hls_fragment 15s;
+</code></pre>
+
+<p>In <code>http{}</code> section set up the following location for clients to play HLS.</p>
+
+<p>为了开启HLS直播功能，要在nginx的http{}配置块进行如下配置：
+主要是指定MIME类型；指定HLS分片存贮路径；缓存与否的控制；还有访问权限控制。</p>
+
+<pre><code>http {
+    ...
+    server {
+        ...
+        location /hls {
+            types {
+                application/vnd.apple.mpegurl m3u8;
+            }
+            root /tmp;
+            add_header Cache-Control no-cache;
+
+            # To avoid issues with cross-domain HTTP requests (e.g. during development)
+            add_header Access-Control-Allow-Origin *;
+        }
+    }
+}
+</code></pre>
+
+<p><strong>提示：</strong> 当然要开启，就是为了用这个功能！</p>
+
+<h4 id="hls-path:a8edd52e082f44f6a206bc3ba04c03d4">hls_path</h4>
+
+<p>Syntax: <code>hls_path path</code><br />
+Context: rtmp, server, application</p>
+
+<p>Sets HLS playlist and fragment directory. If the directory does not
+exist it will be created.</p>
+
+<p>设置 HLS 播放列表和分段目录。这一目录必须在 NGINX 启动前就已存在。</p>
+
+<p><strong>提示：</strong> 根据需要设置。</p>
+
+<h4 id="hls-fragment:a8edd52e082f44f6a206bc3ba04c03d4">hls_fragment</h4>
+
+<p>Syntax: <code>hls_fragment time</code><br />
+Context: rtmp, server, application</p>
+
+<p>Sets HLS fragment length. Defaults to 5 seconds.</p>
+
+<p>设置HLS分段长度。默认为5秒。</p>
+
+<p><strong>提示：</strong> 我们设置为10秒。</p>
+
+<h4 id="hls-playlist-length:a8edd52e082f44f6a206bc3ba04c03d4">hls_playlist_length</h4>
+
+<p>Syntax: <code>hls_playlist_length time</code><br />
+Context: rtmp, server, application</p>
+
+<p>Sets HLS playlist length. Defaults to 30 seconds.</p>
+
+<p>设置 HLS 播放列表长度。默认为 30 秒钟。</p>
+
+<pre><code>hls_playlist_length 10m;
+</code></pre>
+
+<p><strong>提示：</strong> 我们设置为10分钟，这样索引文件中只包含10分钟的分片信息。</p>
+
+<h4 id="hls-sync:a8edd52e082f44f6a206bc3ba04c03d4">hls_sync</h4>
+
+<p>Syntax: <code>hls_sync time</code><br />
+Context: rtmp, server, application</p>
+
+<p>Sets HLS timestamp synchronization threshold. Default is 2ms.
+This feature prevents crackling noises after conversion
+from low-resolution RTMP (1KHz) to high-resolution MPEG-TS (90KHz).</p>
+
+<p>设置 HLS 时间戳同步阈值。默认为 2 ms。这一功能可以防止由低分辨率 RTMP (1KHz) 转换到高分辨率 MPEG-TS (90KHz) 之后出现噪音。</p>
+
+<pre><code>hls_sync 100ms;
+</code></pre>
+
+<p><strong>提示：</strong> 我们目前没有设置这个指令。</p>
+
+<h4 id="hls-continuous:a8edd52e082f44f6a206bc3ba04c03d4">hls_continuous</h4>
+
+<p>Syntax: <code>hls_continuous on|off</code><br />
+Context: rtmp, server, application</p>
+
+<p>Toggles HLS continuous mode. In this mode HLS sequence number
+is started from where it stopped last time. Old fragments are
+keeped. Default is off.</p>
+
+<p>设置HLS连续模式。设成on时，每次往同一个application上推流时，切出来的新分片的序号是接着之前老分片的序号的。设成off时，分片序号每次都重新开始。</p>
+
+<pre><code>hls_continuous on;
+</code></pre>
+
+<p><strong>提示：</strong> 我们设置为on。</p>
+
+<h4 id="hls-nested:a8edd52e082f44f6a206bc3ba04c03d4">hls_nested</h4>
+
+<p>Syntax: <code>hls_nested on|off</code><br />
+Context: rtmp, server, application</p>
+
+<p>Toggles HLS nested mode. In this mode a subdirectory
+of <code>hls_path</code> is created for each stream. Playlist
+and fragments are created in that subdirectory.
+Default is off.</p>
+
+<p>设置 HLS 嵌套模式。这一模式下为每个流创建了一个 hls_path 的子目录。播放列表和分段在那个子目录中创建。默认为 off。</p>
+
+<pre><code>hls_nested on;
+</code></pre>
+
+<p><strong>提示：</strong> 我们设置为on。</p>
+
+<h4 id="hls-base-url:a8edd52e082f44f6a206bc3ba04c03d4">hls_base_url</h4>
+
+<p>Syntax: <code>hls_base_url url</code><br />
+Context: rtmp, server, application</p>
+
+<p>Sets base url for HLS playlist items. When empty those
+items have no prefix and assumed to be at the same location
+as parent playlist or one level lower when <code>hls_nested</code> is
+used. This feature applies both to master (variant) and slave
+HLS playlists. It can let you download the playlist and play it
+locally since it contains full references to child playlists or
+fragments. Empty by default.</p>
+
+<p>设置索引文件中的分片的base url。不设置时，索引文件中分片位置就是单独的一个分片名字，当用这个指令设置一个base url后，索引文件中每个分片的名字前都会加上同样的前缀。</p>
+
+<pre><code>hls_base_url http://myserver.com/hls/;
+</code></pre>
+
+<p><strong>提示：</strong> 我们没有设置base url，因为我们会自己生成需要的点播索引文件。</p>
+
+<h4 id="hls-cleanup:a8edd52e082f44f6a206bc3ba04c03d4">hls_cleanup</h4>
+
+<p>Syntax: <code>hls_cleanup on|off</code><br />
+Context: rtmp, server, application</p>
+
+<p>Toggles HLS cleanup. By default the feature is on.
+In this mode nginx cache manager process removes old
+HLS fragments and playlists from HLS directory.</p>
+
+<p>设置是否删除老的分片。默认是on,删除。</p>
+
+<pre><code>hls_cleanup off;
+</code></pre>
+
+<p><strong>提示：</strong> 为了防止时间一长服务器硬盘被HLS分片挤爆，所以一定设置成on。</p>
+
+<h4 id="hls-fragment-naming:a8edd52e082f44f6a206bc3ba04c03d4">hls_fragment_naming</h4>
+
+<p>Syntax: <code>hls_fragment_naming sequential|timestamp|system</code><br />
+Context: rtmp, server, application</p>
+
+<p>Sets fragment naming mode.
+* sequential - use increasing integers
+* timestamp - use stream timestamp
+* system - use system time</p>
+
+<p>设置分片的命名方式，有三种命名方式：序列号，流时间戳，当前系统时间。</p>
+
+<p>Default is sequential. 默认使用序列号。</p>
+
+<pre><code>hls_fragment_naming system;
+</code></pre>
+
+<p><strong>提示：</strong> 根据业务需要一般都是使用第三种命名方式，system。</p>
+
+<h3 id="hls-fragment-naming-granularity:a8edd52e082f44f6a206bc3ba04c03d4">hls_fragment_naming_granularity</h3>
+
+<p>Syntax: <code>hls_fragment_naming_granularity number</code><br />
+Context: rtmp, server, application</p>
+
+<p>Sets granularity for hls fragment ids. If above zero, changes ids
+to divide the provided value. Default is zero.</p>
+
+<p>当分片命名方式设置为system时，再设置这个参数，比如设置成500，那所有分片的名字都是以500取整，不会出现其他零碎的时间值。</p>
+
+<pre><code># use system time rounded to 500ms as fragment names
+hls_fragment_naming system;
+hls_fragment_naming_granularity 500;
+</code></pre>
+
+<p><strong>提示：</strong> 感觉没什么卵用，没设置。</p>
+
+<h4 id="hls-fragment-slicing:a8edd52e082f44f6a206bc3ba04c03d4">hls_fragment_slicing</h4>
+
+<p>Syntax: <code>hls_fragment_slicing plain|aligned</code><br />
+Context: rtmp, server, application</p>
+
+<p>Sets fragment slicing mode.
+* plain - switch fragment when target duration is reached
+* aligned - switch fragment when incoming timestamp is a multiple of fragment duration. This mode makes it possible to generate identical fragments on different nginx instances</p>
+
+<p>设置切片模式。plain:普通切法。aligned: 当传入的时间戳是分片周期的整数倍时分片。这种模式可以在不同nginx实例上切出一致的分片。</p>
+
+<p>Default is plain.</p>
+
+<pre><code>hls_fragment_slicing aligned;
+</code></pre>
+
+<p><strong>提示：</strong> 目前我们没有设置。</p>
+
+<h4 id="hls-variant:a8edd52e082f44f6a206bc3ba04c03d4">hls_variant</h4>
+
+<p>Syntax: <code>hls_variant suffix [param*]</code><br />
+Context: rtmp, server, application</p>
+
+<p>Adds HLS variant entry. When suffix is matched on stream name
+then variant playlist is created for the current stream with all
+entries specified by <code>hls_variant</code> directives in current application.
+Stripped name without suffix is used as variant stream name. The original
+stream is processed as usual.</p>
+
+<p>Optional parameters following the suffix are appended to <code>EXT-X-STREAM-INF</code> in
+m3u8 playlist. See HLS spec. 3.3.10. EXT-X-STREAM-INF for the full list of supported
+parameters.</p>
+
+<p>增加HLS多码流入口。前缀匹配上流的名字,建立多码流。</p>
+
+<p>当前应用hls_variant命令, 去除名字前缀作为流名字使用。原始流按通常处理。 前缀后边的可选参数追加到 m3u8列表的<code>EXT-X-STREAM-INF</code>后面。</p>
+
+<pre><code>rtmp {
+    server {
+        listen 1935;
+
+        application src {
+            live on;
+
+            exec ffmpeg -i rtmp://localhost/src/$name
+              -c:a libfdk_aac -b:a 32k  -c:v libx264 -b:v 128K -f flv rtmp://localhost/hls/$name_low
+              -c:a libfdk_aac -b:a 64k  -c:v libx264 -b:v 256k -f flv rtmp://localhost/hls/$name_mid
+              -c:a libfdk_aac -b:a 128k -c:v libx264 -b:v 512K -f flv rtmp://localhost/hls/$name_hi;
+        }
+
+        application hls {
+            live on;
+
+            hls on;
+            hls_path /tmp/hls;
+            hls_nested on;
+
+            hls_variant _low BANDWIDTH=160000;
+            hls_variant _mid BANDWIDTH=320000;
+            hls_variant _hi  BANDWIDTH=640000;
+        }
+    }
+}
+</code></pre>
+
+<p><strong>提示：</strong> src中ffmpeg转出多路码率的码流，然后传入hls中，通过hls_variant设置多码率，这样就会生成一个masterplaylist和每个码率一个自己的mediaplaylist。从而可以支持HLS多码率的功能。</p>
+
+<h4 id="hls-type:a8edd52e082f44f6a206bc3ba04c03d4">hls_type</h4>
+
+<p>Syntax: <code>hls_type live|event</code><br />
+Context: rtmp, server, application</p>
+
+<p>Sets HLS playlist type specified in <code>X-PLAYLIST-TYPE</code> playlist directive.
+Live HLS stream is usually played from the current live position which is
+several fragments to the end of playlist. Event HLS stream is always played
+from the start of playlist. When in <code>event</code> mode make sure playlist length
+is enough for the whole event. Default is <code>live</code>;</p>
+
+<p>用于设置在生成的索引文件中<code>X-PLAYLIST-TYPE</code>显示的类型。</p>
+
+<p>LIVE : 流通常从索引文件中倒数几片开始播放。</p>
+
+<p>EVENT: 流从头播放（使用此种模式需确认playlist的长度够长）。</p>
+
+<pre><code>hls_type event;
+</code></pre>
+
+<p><strong>提示：</strong> 我们一定是用live的。</p>
+
+<h4 id="hls-keys:a8edd52e082f44f6a206bc3ba04c03d4">hls_keys</h4>
+
+<p>Syntax: <code>hls_keys on|off</code><br />
+Context: rtmp, server, application</p>
+
+<p>Enables HLS encryption. AES-128 method is used to encrypt the whole HLS fragments.
+Off by default.</p>
+
+<p>开启HLS加密。 AES-128方法加密整个切片。默认关</p>
+
+<pre><code>hls_keys on;
+</code></pre>
+
+<p>Here&rsquo;s the example configuration using the HLS encryption. This configuration
+requires that nginx is built with <code>--with-http_ssl_module</code> for https support.</p>
+
+<pre><code>...
+
+http {
+    ...
+    server {
+        listen 443 ssl;
+        server_name example.com;
+
+        ssl_certificate /var/ssl/example.com.cert;
+        ssl_certificate_key /var/ssl/example.com.key;
+
+        location /keys {
+            root /tmp;
+        }
+    }
+
+    server {
+        listen 80;
+        server_name example.com;
+
+        location /hls {
+            root /tmp;
+        }
+    }
+}
+
+rtmp {
+    server {
+        listen 1935;
+
+        application myapp {
+            live on;
+
+            hls on;
+            hls_path /tmp/hls;
+
+            hls_keys on;
+            hls_key_path /tmp/keys;
+            hls_key_url https://example.com/keys/;
+            hls_fragments_per_key 10;
+        }
+    }
+}
+</code></pre>
+
+<p><strong>提示：</strong> 目前我们不支持切片加密，所以没设置这个。</p>
+
+<h4 id="hls-key-path:a8edd52e082f44f6a206bc3ba04c03d4">hls_key_path</h4>
+
+<p>Syntax: <code>hls_key_path path</code><br />
+Context: rtmp, server, application</p>
+
+<p>Sets the directory where auto-generated HLS keys are saved.
+Key files have <code>.key</code> extension and pseudo-random 16-byte content
+created with the OpenSSL <code>RAND_bytes()</code> routine.
+If the directory does not exist it&rsquo;s created in runtime.
+By default, <code>hls_path</code> directory is used for key files.
+Remember however you should normally restrict access to key files which
+is easier when these files are stored separately from playlist and fragments.</p>
+
+<p>设置自动生成HLS秘钥存放路径。key文件后缀.key,内容16位伪随机数。路径不存在会自动建立。 默认,hls_path 目录用于key文件。记住把key放在不同于切片和索引的目录,限制访问。</p>
+
+<pre><code>hls_key_path /tmp/keys;
+</code></pre>
+
+<p><strong>提示：</strong> 目前我们不支持切片加密，所以没设置这个。</p>
+
+<h4 id="hls-key-url:a8edd52e082f44f6a206bc3ba04c03d4">hls_key_url</h4>
+
+<p>Syntax: <code>hls_key_url url</code><br />
+Context: rtmp, server, application</p>
+
+<p>Sets url for HLS key file entries. When empty those
+items have no prefix and keys are assumed to be at the same location
+as the playlist. Empty by default.</p>
+
+<p>为HLS秘钥文件设置URL入口。为空时没有前缀,假定秘钥存放在索引路径。默认空。</p>
+
+<pre><code>hls_key_url https://myserver.com/keys/;
+</code></pre>
+
+<p>Example playlist entry with the above setting</p>
+
+<p>示例为如上设置的列表入口</p>
+
+<pre><code>#EXT-X-KEY:METHOD=AES-128,URI=&quot;https://myserver.com/keys/337.key&quot;,IV=0x00000000000000000000000000000151
+</code></pre>
+
+<p><strong>提示：</strong> 目前我们不支持切片加密，所以没设置这个。</p>
+
+<h4 id="hls-fragments-per-key:a8edd52e082f44f6a206bc3ba04c03d4">hls_fragments_per_key</h4>
+
+<p>Syntax: <code>hls_fragments_per_key value</code><br />
+Context: rtmp, server, application</p>
+
+<p>Sets the number of HLS fragments encrypted with the same key.
+Zero means only one key is created at the publish start
+and all fragments within the session are encrypted with this key.
+Default is zero.</p>
+
+<p>设置HLS切片用相同key加密的片数。0意味着发布时有1 个秘钥生成,会话所有的切片被此秘钥加密。默认为 0。</p>
+
+<pre><code>hls_fragments_per_key 10;
+</code></pre>
+
+<p><strong>提示：</strong> 目前我们不支持切片加密，所以没设置这个。</p>
+
+<h2 id="mpeg-dash:a8edd52e082f44f6a206bc3ba04c03d4">MPEG-DASH</h2>
+
+<h4 id="dash:a8edd52e082f44f6a206bc3ba04c03d4">dash</h4>
+
+<p>Syntax: <code>dash on|off</code><br />
+Context: rtmp, server, application</p>
+
+<p>Toggles MPEG-DASH on the application.
+开始DASH直播功能。</p>
+
+<pre><code>dash on;
+dash_path /tmp/dash;
+dash_fragment 15s;
+</code></pre>
+
+<p>In <code>http{}</code> section set up the following location for clients to play MPEG-DASH.</p>
+
+<pre><code>http {
+    ...
+    server {
+        ...
+        location /dash {
+            root /tmp;
+            add_header Cache-Control no-cache;
+
+            # To avoid issues with cross-domain HTTP requests (e.g. during development)
+            add_header Access-Control-Allow-Origin *;
+        }
+    }
+}
+</code></pre>
+
+<p><strong>提示：</strong> DASH目前没有多少人在用，所以没有研究，但应该跟HLS也是差不多的。</p>
+
+<h4 id="dash-path:a8edd52e082f44f6a206bc3ba04c03d4">dash_path</h4>
+
+<p>Syntax: <code>dash_path path</code><br />
+Context: rtmp, server, application</p>
+
+<p>Sets MPEG-DASH playlist and fragment directory. If the directory does not
+exists it will be created.</p>
+
+<p>设置MPEG-DASH列表和切片路径。如果存在自动建立。</p>
+
+<h4 id="dash-fragment:a8edd52e082f44f6a206bc3ba04c03d4">dash_fragment</h4>
+
+<p>Syntax: <code>dash_fragment time</code><br />
+Context: rtmp, server, application</p>
+
+<p>Sets MPEG-DASH fragment length. Defaults to 5 seconds.</p>
+
+<p>设置MPEG-DASH切片时 长。默认5s。</p>
+
+<h4 id="dash-playlist-length:a8edd52e082f44f6a206bc3ba04c03d4">dash_playlist_length</h4>
+
+<p>Syntax: <code>dash_playlist_length time</code><br />
+Context: rtmp, server, application</p>
+
+<p>Sets MPEG-DASH playlist length. Defaults to 30 seconds.</p>
+
+<p>设置播放列表时长,默认30s。</p>
+
+<pre><code>dash_playlist_length 10m;
+</code></pre>
+
+<h4 id="dash-nested:a8edd52e082f44f6a206bc3ba04c03d4">dash_nested</h4>
+
+<p>Syntax: <code>dash_nested on|off</code><br />
+Context: rtmp, server, application</p>
+
+<p>Toggles MPEG-DASH nested mode. In this mode a subdirectory
+of <code>dash_path</code> is created for each stream. Playlist
+and fragments are created in that subdirectory.
+Default is off.</p>
+
+<p>设置 MPEG-DASH 嵌套模式。这一模式下为每个流创建了一个 <code>dash_path</code> 的子目录。播放列表和分段在那个子目录中创建。默认为 off</p>
+
+<pre><code>dash_nested on;
+</code></pre>
+
+<h4 id="dash-cleanup:a8edd52e082f44f6a206bc3ba04c03d4">dash_cleanup</h4>
+
+<p>Syntax: <code>dash_cleanup on|off</code><br />
+Context: rtmp, server, application</p>
+
+<p>Toggles MPEG-DASH cleanup. By default the feature is on.
+In this mode nginx cache manager process removes old
+MPEG-DASH fragments and manifests from MPEG-DASH directory.
+Init fragments are deleted after stream manifest is deleted.</p>
+
+<p>设置是否删除老的MPEG-DASH的分片。默认是删除。</p>
+
+<pre><code>dash_cleanup off;
+</code></pre>
+
+<h2 id="access-log:a8edd52e082f44f6a206bc3ba04c03d4">Access log</h2>
+
+<h4 id="access-log-1:a8edd52e082f44f6a206bc3ba04c03d4">access_log</h4>
+
+<p>Syntax: <code>access_log off|path [format_name]</code><br />
+Context: rtmp, server, application</p>
+
+<p>Sets access log parameters. Logging is turned on by default.
+To turn it off use <code>access_log off</code> directive. By default access logging
+is done to the same file as HTTP access logger (<code>logs/access.log</code>).
+You can specify another log file path in <code>access_log</code> directive.
+Second argument is optional. It can be used to specify logging format by name.
+See <code>log_format</code> directive for more details about formats.</p>
+
+<p>设置Log相关参数。log默认是打开的，内容被输出到了nginx本身的logs/access.log中去了。我们可以通过设置把跟rtmp-module相关的输出到一个单独的log文件中。</p>
+
+<pre><code>log_format new '$remote_addr';
+access_log logs/rtmp_access.log new;
+access_log logs/rtmp_access.log;
+access_log off;
+</code></pre>
+
+<p><strong>提示：</strong> log_format可以定义Log的输出内容和格式，并把这个log形式组合起一个名字，比如上例的new, 然后在access_log就可以指定要输出的log位置，后边带上刚刚定义的log组合名字。</p>
+
+<h4 id="log-format:a8edd52e082f44f6a206bc3ba04c03d4">log_format</h4>
+
+<p>Syntax: <code>log_format format_name format</code><br />
+Context: rtmp</p>
+
+<p>Creates named log format. Log formats look very much the same as nginx HTTP log
+formats. Several variables are supported within log format:
+* <code>connection</code> - connection number
+* <code>remote_addr</code> - client address
+* <code>app</code> - application name
+* <code>name</code> - last stream name
+* <code>args</code> - last stream play/publish arguments
+* <code>flashver</code> - client flashVer
+* <code>swfurl</code> - client swfUrl
+* <code>tcurl</code> - client tcUrl
+* <code>pageurl</code> - client pageUrl
+* <code>command</code> - play/publish commands sent by client: <code>NONE</code>, <code>PLAY</code>, <code>PUBLISH</code>, <code>PLAY+PUBLISH</code>
+* <code>bytes_sent</code> - number of bytes sent to client
+* <code>bytes_received</code> - number of bytes received from client
+* <code>time_local</code> - local time at the end of client connection
+* <code>session_time</code> - connection duration in seconds
+* <code>session_readable_time</code> - connection duration in human-readable format
+* <code>msec</code> - current unix timestamp in SEC.MSEC format</p>
+
+<p>上面是在定义log组合时可以用到的变量，自己可以自由组合。</p>
+
+<p>Default log format has the name <code>combined</code>. Here&rsquo;s the definition of this format</p>
+
+<pre><code>$remote_addr [$time_local] $command &quot;$app&quot; &quot;$name&quot; &quot;$args&quot; - 
+$bytes_received $bytes_sent &quot;$pageurl&quot; &quot;$flashver&quot; ($session_readable_time)
+</code></pre>
+
+<p>默认输出的log组合是上边这些内容，命名为<code>combined</code></p>
+
+<p><strong>提示：</strong> 我们可以通过在application中指定</p>
+
+<pre><code>access_log logs/rtmp_accesss.log combined;
+</code></pre>
+
+<p>将rtmp log输出到rtmp_access.log文件中。</p>
+
+<h2 id="limits:a8edd52e082f44f6a206bc3ba04c03d4">Limits</h2>
+
+<h4 id="max-connections:a8edd52e082f44f6a206bc3ba04c03d4">max_connections</h4>
+
+<p>Syntax: <code>max_connections number</code><br />
+Context: rtmp, server, application</p>
+
+<p>Sets maximum number of connections for rtmp engine. Off by default.</p>
+
+<p>设置RTMP连接最大数。默认off</p>
+
+<pre><code>max_connections 100;
+</code></pre>
+
+<p><strong>提示：</strong> 我们没有设置限制。</p>
+
+<h2 id="statistics:a8edd52e082f44f6a206bc3ba04c03d4">Statistics</h2>
+
+<p>Statistics module is NGINX HTTP module unlike all other modules listed
+here. Hence statistics directives should be located within http{} block.</p>
+
+<p>统计模块比较特殊，不是定义在rtmp{}中的，而是定义在http{}中，这个没有什么好说的，就按照下面那样配置就可以。</p>
+
+<p><strong>提示：</strong> 但是。。。。这个模块有一个大坑，就是只能在nginx单worker的模式下正常工作，一旦设置为多worker模式，这个统计信息就完全不准了, 所以将来我们如果要做统计还要另想办法。</p>
+
+<h4 id="rtmp-stat:a8edd52e082f44f6a206bc3ba04c03d4">rtmp_stat</h4>
+
+<p>Syntax: <code>rtmp_stat all</code><br />
+Context: http, server, location</p>
+
+<p>Sets RTMP statistics handler to the current HTTP location. RTMP statistics is
+dynamic XML document. To watch this document in browser as XHTML page
+use rtmp_stat_stylesheet directive.</p>
+
+<pre><code>http {
+    server {
+        location /stat {
+            rtmp_stat all;
+            rtmp_stat_stylesheet stat.xsl;
+        }
+        location /stat.xsl {
+            root /path/to/stat/xsl/file;
+        }
+    }
+}
+</code></pre>
+
+<p><strong>提示：</strong> 其中/stat.xsl下指定的root路径下一定要有stat.xsl这模板文件，这个文件就在nginx-rtmp-module源码包的根目录下，拷贝过去就行了。</p>
+
+<h4 id="rtmp-stat-stylesheet:a8edd52e082f44f6a206bc3ba04c03d4">rtmp_stat_stylesheet</h4>
+
+<p>Syntax: <code>rtmp_stat_stylesheet path</code><br />
+Context: http, server, location</p>
+
+<p>Adds XML stylesheet reference to statistics XML to make it viewable
+in browser. See rtmp_stat description and example for more information.</p>
+
+<h2 id="multi-worker-live-streaming:a8edd52e082f44f6a206bc3ba04c03d4">Multi-worker live streaming</h2>
+
+<p>Multi-worker live streaming is implemented through pushing stream
+to remaining nginx workers.</p>
+
+<p>多worker模式支持。通过推流给持续的nginx workers实现多worker直播流。</p>
+
+<h4 id="rtmp-auto-push:a8edd52e082f44f6a206bc3ba04c03d4">rtmp_auto_push</h4>
+
+<p>Syntax: <code>rtmp_auto_push on|off</code><br />
+Context: root</p>
+
+<p>Toggles auto-push (multi-worker live streaming) mode.
+Default is off.</p>
+
+<p>设置自动推模式(多worker 直播流)。默认关。设置为on时，开启支持多worker模式。</p>
+
+<p><strong>提示：</strong> 我们会用多worker模式，所以我们把这项设为on</p>
+
+<h4 id="rtmp-auto-push-reconnect:a8edd52e082f44f6a206bc3ba04c03d4">rtmp_auto_push_reconnect</h4>
+
+<p>Syntax: <code>rtmp_auto_push_reconnect timeout</code><br />
+Context: root</p>
+
+<p>Sets auto-push reconnect timeout when worker is killed.
+Default is 100 milliseconds.</p>
+
+<p>设置worker被杀掉时自动重 连超时。默认100ms。</p>
+
+<h4 id="rtmp-socket-dir:a8edd52e082f44f6a206bc3ba04c03d4">rtmp_socket_dir</h4>
+
+<p>Syntax: <code>rtmp_socket_dir dir</code><br />
+Context: root</p>
+
+<p>Sets directory for UNIX domains sockets used for stream pushing.
+Default is <code>/tmp</code>.</p>
+
+<p>为推流设置UNIX域名 socket路径。默认是/tmp。</p>
+
+<pre><code>rtmp_auto_push on;
+rtmp_auto_push_reconnect 1s;
+rtmp_socket_dir /var/sock;
+
+rtmp {
+    server {
+        listen 1935;
+        application myapp {
+            live on;
+        }
+    }
+}
+</code></pre>
+
+<h2 id="control:a8edd52e082f44f6a206bc3ba04c03d4">Control</h2>
+
+<p>Control module is NGINX HTTP module and should be located within http{} block.</p>
+
+<p>控制模块是NGINX HTTP模块, 位于http{}配置块中。</p>
+
+<p><strong>提示：</strong> 这个模块和统计模块问题是一样的，只在单worker下能稳定正常工作，在多worker下就完蛋了，说这句话容易，但这都是自己踩过坑之后才知道的。</p>
+
+<h4 id="rtmp-control:a8edd52e082f44f6a206bc3ba04c03d4">rtmp_control</h4>
+
+<p>Syntax: <code>rtmp_control all</code><br />
+Context: http, server, location</p>
+
+<p>Sets RTMP control handler to the current HTTP location.</p>
+
+<p>为当前HTTP location设置RTMP控制器。</p>
+
+<pre><code>http {
+    server {
+        location /control {
+            rtmp_control all;
+        }
+    }
+}
+</code></pre>
+
+<p><a href="Control-module">More details about control module</a></p>
+
+  </div>
+  <div id="disqus_thread"></div>
+</div>
+
+
+<script type="text/javascript">
+var disqus_shortname = "bingnan";
+(function () {
+    var s = document.createElement('script'); s.async = true;
+    s.type = 'text/javascript';
+    s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
+
+
+
+<script type="text/javascript">
+    var disqus_shortname = "bingnan";
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<script src="http://bingnan.github.io/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</body>
+</html>
+
