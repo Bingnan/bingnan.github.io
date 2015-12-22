@@ -6,25 +6,15 @@
     <description>Recent content on bingnan blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 20 Dec 2015 01:05:05 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 22 Dec 2015 19:58:06 +0800</lastBuildDate>
     <atom:link href="http://bingnan.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>first</title>
-      <link>http://bingnan.github.io/blog/2015/12/20/first/</link>
-      <pubDate>Sun, 20 Dec 2015 01:05:05 +0800</pubDate>
+      <title>nginx rtmp module directives翻译和注释</title>
+      <link>http://bingnan.github.io/blog/2015/12/22/nginx-rtmp-module-directives%E7%BF%BB%E8%AF%91%E5%92%8C%E6%B3%A8%E9%87%8A/</link>
+      <pubDate>Tue, 22 Dec 2015 19:58:06 +0800</pubDate>
       
-      <guid>http://bingnan.github.io/blog/2015/12/20/first/</guid>
-      <description>&lt;p&gt;你好，世界！&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>http://bingnan.github.io/blog/1/01/01/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://bingnan.github.io/blog/1/01/01/</guid>
+      <guid>http://bingnan.github.io/blog/2015/12/22/nginx-rtmp-module-directives%E7%BF%BB%E8%AF%91%E5%92%8C%E6%B3%A8%E9%87%8A/</guid>
       <description>
 
 &lt;p&gt;这个我称之为 『段批』 nginx-rtmp-module使用指南&lt;/p&gt;
@@ -2407,6 +2397,16 @@ Context: http, server, location&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;a href=&#34;Control-module&#34;&gt;More details about control module&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>first</title>
+      <link>http://bingnan.github.io/blog/2015/12/20/first/</link>
+      <pubDate>Sun, 20 Dec 2015 01:05:05 +0800</pubDate>
+      
+      <guid>http://bingnan.github.io/blog/2015/12/20/first/</guid>
+      <description>&lt;p&gt;你好，世界！&lt;/p&gt;
 </description>
     </item>
     
