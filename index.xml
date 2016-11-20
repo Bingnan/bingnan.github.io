@@ -6,8 +6,113 @@
     <description>Recent content on bingnan blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Tue, 22 Dec 2015 19:58:06 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 20 Nov 2016 10:49:52 +0800</lastBuildDate>
     <atom:link href="http://bingnan.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>如何创建nginx rtmp module的xcode工程</title>
+      <link>http://bingnan.github.io/blog/2016/11/20/%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BAnginx-rtmp-module%E7%9A%84xcode%E5%B7%A5%E7%A8%8B/</link>
+      <pubDate>Sun, 20 Nov 2016 10:49:52 +0800</pubDate>
+      
+      <guid>http://bingnan.github.io/blog/2016/11/20/%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BAnginx-rtmp-module%E7%9A%84xcode%E5%B7%A5%E7%A8%8B/</guid>
+      <description>
+
+&lt;h4 id=&#34;适用于macos-sierra新系统-感谢-https-github-com-akagi201-ffmpeg-xcode:15916fd7d00a8a932116d30de5a0ef13&#34;&gt;适用于MacOS Sierra新系统，感谢 &lt;a href=&#34;https://github.com/Akagi201/ffmpeg-xcode&#34;&gt;https://github.com/Akagi201/ffmpeg-xcode&lt;/a&gt;&lt;/h4&gt;
+
+&lt;h2 id=&#34;step1-编译nginx-1-8-1和nginx-rtmp-module模块:15916fd7d00a8a932116d30de5a0ef13&#34;&gt;step1 编译nginx-1.8.1和nginx-rtmp-module模块&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;找一个位置放置好nginx和nginx-rtmp-module的代码，比如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;nginx-1.8.1
+├── CHANGES
+├── CHANGES.ru
+├── LICENSE
+├── Makefile
+├── README
+├── auto
+├── conf
+├── configure
+├── contrib
+├── html
+├── man
+├── nginx-rtmp-module
+├── objs
+└── src
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;进入nginx目录，执行configure命令，configure命令可能会因不同机器而不同，可以参考在我的mac上的命令如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;./configure --prefix=/Users/duanbingnan_mt/nginx --add-module=./nginx-rtmp-module --with-debug --with-http_ssl_module --with-cc-opt=&amp;quot;-I/usr/local/Cellar/pcre/8.37/include -I/usr/local/opt/openssl/include&amp;quot; --with-ld-opt=&amp;quot;-L/usr/local/Cellar/pcre/8.37/lib -L/usr/local/opt/openssl/lib&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;开始编译 make -j4&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;step2-新建一个空的xcode目录:15916fd7d00a8a932116d30de5a0ef13&#34;&gt;step2 新建一个空的xcode目录&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;创建一个空的xcode项目
+&lt;img src=&#34;http://bingnan.github.io/img/1/create_empty_project.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;http://bingnan.github.io/img/1/create_empty_project1.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;然后选一个地方保存xcode的工程文件。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;step3-将nginx源码-包含nginx-rtmp-module-拖拽到xcode项目中:15916fd7d00a8a932116d30de5a0ef13&#34;&gt;step3 将nginx源码(包含nginx-rtmp-module)拖拽到xcode项目中&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;将nginx整个源码目录拖拽进xcode项目中的nginx-rtmp-xcode目录下
+&lt;img src=&#34;http://bingnan.github.io/img/1/add_src_to_xcode.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;下一步，这里一定不要勾选&amp;rdquo;Create external build system project&amp;rdquo;
+&lt;img src=&#34;http://bingnan.github.io/img/1/add_src_to_xcode1.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;下一步，这里一定要勾选&amp;rdquo;Add to target&amp;rdquo;下的&amp;rdquo;nginx-rtmp-xcode&amp;rdquo;，否则看代码时无法跳转，写代码时也没有提示
+&lt;img src=&#34;http://bingnan.github.io/img/1/add_src_to_xcode2.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;step4-添加一个target:15916fd7d00a8a932116d30de5a0ef13&#34;&gt;step4 添加一个target&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;File -&amp;gt; New -&amp;gt; Target -&amp;gt; Cross Platform -&amp;gt; other -&amp;gt; External Build System
+&lt;img src=&#34;http://bingnan.github.io/img/1/create_target.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;target命名为nginx-rtmp-make,确认你的make工具在/usr/bin/make路径下
+&lt;img src=&#34;http://bingnan.github.io/img/1/create_target1.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;target切换到nginx-rtmp-make
+&lt;img src=&#34;http://bingnan.github.io/img/1/create_target2.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;step5-修改nginx-rtmp-make的源码路径:15916fd7d00a8a932116d30de5a0ef13&#34;&gt;step5 修改nginx-rtmp-make的源码路径&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;打开nginx-rtmp-xcode工程配置页面，选择nginx-rtmp-make这个target,在&amp;rdquo;info&amp;rdquo;中输入nginx源码的路径：
+&lt;img src=&#34;http://bingnan.github.io/img/1/change_src_path.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;step6-修改编译参数:15916fd7d00a8a932116d30de5a0ef13&#34;&gt;step6 修改编译参数&lt;/h2&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;用鼠标点击xode界面左上角的切换target按钮，选择&amp;rdquo;Edit Scheme&amp;rdquo;, 在&amp;rdquo;Run&amp;rdquo;标签页中的&amp;rdquo;Info&amp;rdquo;下选择第一步编译出来的Nginx可执行二进制文件路径
+&lt;img src=&#34;http://bingnan.github.io/img/1/make_args.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;在Arguments下可以添加启动参数，对于nginx来说，可以指定Nginx.conf的路径
+&lt;img src=&#34;http://bingnan.github.io/img/1/make_args1.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;step7-调试:15916fd7d00a8a932116d30de5a0ef13&#34;&gt;step7 调试&lt;/h2&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;修改nginx.conf,加上下面几个配置项&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;master_process off;
+worker_processes 1;
+daemon off;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;下断点，调试
+&lt;img src=&#34;http://bingnan.github.io/img/1/debug.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
     
     <item>
       <title>nginx rtmp module directives翻译和注释</title>
