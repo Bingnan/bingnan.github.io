@@ -62,7 +62,7 @@
 
     
 
-    <p>Copyright &copy; 2016 <a href="http://bingnan.github.io/license/">License</a><br/>
+    <p>Copyright &copy; 2017 <a href="http://bingnan.github.io/license/">License</a><br/>
        Powered by <a href="http://gohugo.io">Hugo</a> and <a href="https://github.com/zyro/hyde-x">Hyde-X</a></p>
   </div>
 </div>
@@ -78,9 +78,9 @@
     </span>
     
 
-<h4 id="适用于macos-sierra新系统-感谢-https-github-com-akagi201-ffmpeg-xcode:15916fd7d00a8a932116d30de5a0ef13">适用于MacOS Sierra新系统，感谢 <a href="https://github.com/Akagi201/ffmpeg-xcode">https://github.com/Akagi201/ffmpeg-xcode</a></h4>
+<h4 id="适用于macos-sierra新系统-感谢-https-github-com-akagi201-ffmpeg-xcode">适用于MacOS Sierra新系统，感谢 <a href="https://github.com/Akagi201/ffmpeg-xcode">https://github.com/Akagi201/ffmpeg-xcode</a></h4>
 
-<h2 id="step1-编译nginx-1-8-1和nginx-rtmp-module模块:15916fd7d00a8a932116d30de5a0ef13">step1 编译nginx-1.8.1和nginx-rtmp-module模块</h2>
+<h2 id="step1-编译nginx-1-8-1和nginx-rtmp-module模块">step1 编译nginx-1.8.1和nginx-rtmp-module模块</h2>
 
 <ul>
 <li><p>找一个位置放置好nginx和nginx-rtmp-module的代码，比如：</p>
@@ -110,7 +110,7 @@
 <li><p>开始编译 make -j4</p></li>
 </ul>
 
-<h2 id="step2-新建一个空的xcode目录:15916fd7d00a8a932116d30de5a0ef13">step2 新建一个空的xcode目录</h2>
+<h2 id="step2-新建一个空的xcode目录">step2 新建一个空的xcode目录</h2>
 
 <ul>
 <li><p>创建一个空的xcode项目
@@ -120,7 +120,7 @@
 <li><p>然后选一个地方保存xcode的工程文件。</p></li>
 </ul>
 
-<h2 id="step3-将nginx源码-包含nginx-rtmp-module-拖拽到xcode项目中:15916fd7d00a8a932116d30de5a0ef13">step3 将nginx源码(包含nginx-rtmp-module)拖拽到xcode项目中</h2>
+<h2 id="step3-将nginx源码-包含nginx-rtmp-module-拖拽到xcode项目中">step3 将nginx源码(包含nginx-rtmp-module)拖拽到xcode项目中</h2>
 
 <ul>
 <li><p>将nginx整个源码目录拖拽进xcode项目中的nginx-rtmp-xcode目录下
@@ -133,7 +133,7 @@
 <img src="/img/1/add_src_to_xcode2.png" alt="" /></p></li>
 </ul>
 
-<h2 id="step4-添加一个target:15916fd7d00a8a932116d30de5a0ef13">step4 添加一个target</h2>
+<h2 id="step4-添加一个target">step4 添加一个target</h2>
 
 <ul>
 <li><p>File -&gt; New -&gt; Target -&gt; Cross Platform -&gt; other -&gt; External Build System
@@ -146,13 +146,13 @@
 <img src="/img/1/create_target2.png" alt="" /></p></li>
 </ul>
 
-<h2 id="step5-修改nginx-rtmp-make的源码路径:15916fd7d00a8a932116d30de5a0ef13">step5 修改nginx-rtmp-make的源码路径</h2>
+<h2 id="step5-修改nginx-rtmp-make的源码路径">step5 修改nginx-rtmp-make的源码路径</h2>
 
 <ul>
 <li><p>打开nginx-rtmp-xcode工程配置页面，选择nginx-rtmp-make这个target,在&rdquo;info&rdquo;中输入nginx源码的路径：
 <img src="/img/1/change_src_path.png" alt="" /></p>
 
-<h2 id="step6-修改编译参数:15916fd7d00a8a932116d30de5a0ef13">step6 修改编译参数</h2></li>
+<h2 id="step6-修改编译参数">step6 修改编译参数</h2></li>
 
 <li><p>用鼠标点击xode界面左上角的切换target按钮，选择&rdquo;Edit Scheme&rdquo;, 在&rdquo;Run&rdquo;标签页中的&rdquo;Info&rdquo;下选择第一步编译出来的Nginx可执行二进制文件路径
 <img src="/img/1/make_args.png" alt="" /></p></li>
@@ -160,7 +160,7 @@
 <li><p>在Arguments下可以添加启动参数，对于nginx来说，可以指定Nginx.conf的路径
 <img src="/img/1/make_args1.png" alt="" /></p>
 
-<h2 id="step7-调试:15916fd7d00a8a932116d30de5a0ef13">step7 调试</h2></li>
+<h2 id="step7-调试">step7 调试</h2></li>
 
 <li><p>修改nginx.conf,加上下面几个配置项</p>
 

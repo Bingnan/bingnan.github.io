@@ -62,7 +62,7 @@
 
     
 
-    <p>Copyright &copy; 2016 <a href="http://bingnan.github.io/license/">License</a><br/>
+    <p>Copyright &copy; 2017 <a href="http://bingnan.github.io/license/">License</a><br/>
        Powered by <a href="http://gohugo.io">Hugo</a> and <a href="https://github.com/zyro/hyde-x">Hyde-X</a></p>
   </div>
 </div>
@@ -90,7 +90,7 @@
 
 <p>Ready? GO!</p>
 
-<h1 id="table-of-contents:a8edd52e082f44f6a206bc3ba04c03d4">Table of Contents</h1>
+<h1 id="table-of-contents">Table of Contents</h1>
 
 <ul>
 <li><a href="#core">Core</a>
@@ -258,9 +258,9 @@
 </ul></li>
 </ul>
 
-<h2 id="core:a8edd52e082f44f6a206bc3ba04c03d4">Core</h2>
+<h2 id="core">Core</h2>
 
-<h4 id="rtmp:a8edd52e082f44f6a206bc3ba04c03d4">rtmp</h4>
+<h4 id="rtmp">rtmp</h4>
 
 <p>syntax: <code>rtmp { ... }</code><br />
 context: root<br />
@@ -269,7 +269,7 @@ The block which holds all RTMP settings<br />
 
 <p><strong>提示：</strong> 这是必须用到的参数</p>
 
-<h4 id="server:a8edd52e082f44f6a206bc3ba04c03d4">server</h4>
+<h4 id="server">server</h4>
 
 <p>syntax: <code>server { ... }</code><br />
 context: rtmp<br />
@@ -284,7 +284,7 @@ Declares RTMP server instance<br />
 
 <p><strong>提示：</strong> 这是必须用到的参数</p>
 
-<h4 id="listen:a8edd52e082f44f6a206bc3ba04c03d4">listen</h4>
+<h4 id="listen">listen</h4>
 
 <p>syntax: <code>listen (addr[:port]|port|unix:path) [bind]  [ipv6only=on|off] [so_keepalive=on|off|keepidle:keepintvl:keepcnt|proxy_protocol]</code><br />
 context: server</p>
@@ -299,7 +299,7 @@ context: server</p>
 
 <p><strong>提示：</strong> 这是必须用到的参数，一般RTMP服务器监听1935端口，但也可以修改</p>
 
-<h4 id="application:a8edd52e082f44f6a206bc3ba04c03d4">application</h4>
+<h4 id="application">application</h4>
 
 <p>syntax: <code>application name { ... }</code><br />
 context: server</p>
@@ -323,7 +323,7 @@ be a pattern.</p>
 <p>其中appid就是你想往哪个application上推就填写哪个appid。<br />
 streamid一般是随便填，只要推流时和播放时一致就行。</p>
 
-<h4 id="timeout:a8edd52e082f44f6a206bc3ba04c03d4">timeout</h4>
+<h4 id="timeout">timeout</h4>
 
 <p>syntax: <code>timeout value</code><br />
 context: rtmp, server</p>
@@ -340,7 +340,7 @@ keepalive or RTMP ping. Default is 1 minute.</p>
 
 <p><strong>提示：</strong> 用默认值就行，我们没有特殊设置。</p>
 
-<h4 id="ping:a8edd52e082f44f6a206bc3ba04c03d4">ping</h4>
+<h4 id="ping">ping</h4>
 
 <p>syntax: <code>ping value</code><br />
 context: rtmp, server</p>
@@ -359,7 +359,7 @@ ping_timeout 30s;
 
 <p><strong>提示：</strong> 用默认值就行，我们没有特殊设置。</p>
 
-<h4 id="ping-timeout:a8edd52e082f44f6a206bc3ba04c03d4">ping_timeout</h4>
+<h4 id="ping-timeout">ping_timeout</h4>
 
 <p>syntax: <code>ping_timeout value</code><br />
 context: rtmp, server</p>
@@ -367,7 +367,7 @@ context: rtmp, server</p>
 <p>See ping description above.<br />
 见上</p>
 
-<h4 id="max-streams:a8edd52e082f44f6a206bc3ba04c03d4">max_streams</h4>
+<h4 id="max-streams">max_streams</h4>
 
 <p>syntax: <code>max_streams value</code><br />
 context: rtmp, server</p>
@@ -383,7 +383,7 @@ audio, video etc. Default value is 32 which is usually ok for many cases.</p>
 
 <p><strong>提示：</strong> 用默认值就行，我们没有特殊设置。</p>
 
-<h4 id="ack-window:a8edd52e082f44f6a206bc3ba04c03d4">ack_window</h4>
+<h4 id="ack-window">ack_window</h4>
 
 <p>syntax: <code>ack_window value</code><br />
 context: rtmp, server</p>
@@ -399,7 +399,7 @@ which peer should send acknowledge packet to remote side. Default value is
 
 <p><strong>提示：</strong> 用默认值就行，我们没有特殊设置。</p>
 
-<h4 id="chunk-size:a8edd52e082f44f6a206bc3ba04c03d4">chunk_size</h4>
+<h4 id="chunk-size">chunk_size</h4>
 
 <p>syntax: <code>chunk_size value</code><br />
 context: rtmp, server</p>
@@ -414,11 +414,11 @@ this value the lower CPU overhead. This value cannot be less than 128.</p>
 
 <p><strong>提示：</strong> 用默认值就行，我们没有特殊设置。</p>
 
-<h4 id="max-queue:a8edd52e082f44f6a206bc3ba04c03d4">max_queue</h4>
+<h4 id="max-queue">max_queue</h4>
 
 <p><strong>提示：</strong> 无解释</p>
 
-<h4 id="max-message:a8edd52e082f44f6a206bc3ba04c03d4">max_message</h4>
+<h4 id="max-message">max_message</h4>
 
 <p>syntax: <code>max_queue value</code><br />
 context: rtmp, server</p>
@@ -436,7 +436,7 @@ very large which can be a problem for server stability. Default value
 
 <p><strong>提示：</strong> 用默认值就行，我们没有特殊设置。</p>
 
-<h3 id="buflen:a8edd52e082f44f6a206bc3ba04c03d4">buflen</h3>
+<h3 id="buflen">buflen</h3>
 
 <p>syntax: <code>buflen time</code><br />
 context: rtmp, server</p>
@@ -451,17 +451,17 @@ before playing and resets this setting. Default is <code>1000 ms</code>.</p>
 
 <p><strong>提示：</strong> 为了减小延迟，我们可以尝试适当减小这个值，比如设成200ms。</p>
 
-<h4 id="out-queue:a8edd52e082f44f6a206bc3ba04c03d4">out_queue</h4>
+<h4 id="out-queue">out_queue</h4>
 
 <p><strong>提示：</strong> 无解释</p>
 
-<h4 id="out-cork:a8edd52e082f44f6a206bc3ba04c03d4">out_cork</h4>
+<h4 id="out-cork">out_cork</h4>
 
 <p><strong>提示：</strong> 无解释</p>
 
-<h2 id="access:a8edd52e082f44f6a206bc3ba04c03d4">Access</h2>
+<h2 id="access">Access</h2>
 
-<h4 id="allow:a8edd52e082f44f6a206bc3ba04c03d4">allow</h4>
+<h4 id="allow">allow</h4>
 
 <p>Syntax: <code>allow [play|publish] address|subnet|all</code><br />
 Context: rtmp, server, application</p>
@@ -479,7 +479,7 @@ deny play all;
 
 <p><strong>提示：</strong> 我们没有设置这个值</p>
 
-<h4 id="deny:a8edd52e082f44f6a206bc3ba04c03d4">deny</h4>
+<h4 id="deny">deny</h4>
 
 <p>Syntax: <code>deny [play|publish] address|subnet|all</code><br />
 Context: rtmp, server, application</p>
@@ -488,9 +488,9 @@ Context: rtmp, server, application</p>
 
 <p><strong>提示：</strong> 我们没有设置这个值</p>
 
-<h2 id="exec:a8edd52e082f44f6a206bc3ba04c03d4">Exec</h2>
+<h2 id="exec">Exec</h2>
 
-<h4 id="exec-push:a8edd52e082f44f6a206bc3ba04c03d4">exec_push</h4>
+<h4 id="exec-push">exec_push</h4>
 
 <p>Syntax: <code>exec_push command arg*</code><br />
 Context: rtmp, server, application</p>
@@ -564,7 +564,7 @@ application hls {
 
 <p>另外我们也使用了这种方式进行转码。</p>
 
-<h4 id="exec-pull:a8edd52e082f44f6a206bc3ba04c03d4">exec_pull</h4>
+<h4 id="exec-pull">exec_pull</h4>
 
 <p>Syntax: <code>exec_pull command arg*</code><br />
 Context: rtmp, server, application</p>
@@ -611,7 +611,7 @@ in exec-family directives. The only option supported now is <code>name</code> op
 
 <p><strong>提示：</strong> 我们目前没有用到exec_pull的场景，也没有做过多测试。</p>
 
-<h4 id="exec-1:a8edd52e082f44f6a206bc3ba04c03d4">exec</h4>
+<h4 id="exec-1">exec</h4>
 
 <p>Syntax: <code>exec command arg*</code><br />
 Context: rtmp, server, application</p>
@@ -620,7 +620,7 @@ Context: rtmp, server, application</p>
 
 <p>同exec_push</p>
 
-<h4 id="exec-options:a8edd52e082f44f6a206bc3ba04c03d4">exec_options</h4>
+<h4 id="exec-options">exec_options</h4>
 
 <p>Syntax: <code>exec_options on|off</code><br />
 Context: rtmp, server, application</p>
@@ -647,7 +647,7 @@ exec_pull http://enother.example.com/hello/f.ts -c copy -f flv rtmp://localhost/
 
 <p><strong>提示：</strong> 默认关闭，我们没有用到这个参数。</p>
 
-<h4 id="exec-static:a8edd52e082f44f6a206bc3ba04c03d4">exec_static</h4>
+<h4 id="exec-static">exec_static</h4>
 
 <p>Syntax: <code>exec_static command arg*</code><br />
 Context: rtmp, server, application</p>
@@ -662,7 +662,7 @@ Does not support substitutions since has no session context.</p>
 
 <p><strong>提示：</strong> 我们没有用到这个参数。</p>
 
-<h4 id="exec-kill-signal:a8edd52e082f44f6a206bc3ba04c03d4">exec_kill_signal</h4>
+<h4 id="exec-kill-signal">exec_kill_signal</h4>
 
 <p>Syntax: <code>exec_kill_signal signal</code><br />
 Context: rtmp, server, application</p>
@@ -679,7 +679,7 @@ exec_kill_signal 3;
 
 <p><strong>提示：</strong> 我们没有用到这个参数。</p>
 
-<h4 id="respawn:a8edd52e082f44f6a206bc3ba04c03d4">respawn</h4>
+<h4 id="respawn">respawn</h4>
 
 <p>Syntax: <code>respawn on|off</code><br />
 Context: rtmp, server, application</p>
@@ -694,7 +694,7 @@ is still on. Default is on;</p>
 
 <p><strong>提示：</strong> 我们没有用到这个参数。</p>
 
-<h4 id="respawn-timeout:a8edd52e082f44f6a206bc3ba04c03d4">respawn_timeout</h4>
+<h4 id="respawn-timeout">respawn_timeout</h4>
 
 <p>Syntax: <code>respawn_timeout timeout</code><br />
 Context: rtmp, server, application</p>
@@ -709,7 +709,7 @@ Default is 5 seconds.</p>
 
 <p><strong>提示：</strong> 我们没有用到这个参数。</p>
 
-<h4 id="exec-publish:a8edd52e082f44f6a206bc3ba04c03d4">exec_publish</h4>
+<h4 id="exec-publish">exec_publish</h4>
 
 <p>Syntax: <code>exec_publish command arg*</code><br />
 Context: rtmp, server, application</p>
@@ -722,7 +722,7 @@ holding query string arguments.</p>
 <p>设置发布时执行外部命令带参数。不分析返回码。支持替换。另外参数支持查询字符串参数。<br />
 <strong>提示：</strong> 我们没有用到这个参数。</p>
 
-<h4 id="exec-play:a8edd52e082f44f6a206bc3ba04c03d4">exec_play</h4>
+<h4 id="exec-play">exec_play</h4>
 
 <p>Syntax: <code>exec_play command arg*</code><br />
 Context: rtmp, server, application</p>
@@ -733,7 +733,7 @@ is the same as for <code>exec_publish</code>.
 设置播放时执行外部命令带参数。不分析返回码。替换列表同exec_publish。<br />
 <strong>提示：</strong> 我们没有用到这个参数。</p>
 
-<h4 id="exec-play-done:a8edd52e082f44f6a206bc3ba04c03d4">exec_play_done</h4>
+<h4 id="exec-play-done">exec_play_done</h4>
 
 <p>Syntax: <code>exec_play_done command arg*</code><br />
 Context: rtmp, server, application</p>
@@ -744,7 +744,7 @@ is the same as for <code>exec_publish</code>.
 设置播放完调外部命令带参数。不分析返回码。替换列表同exec_publish。<br />
 <strong>提示：</strong> 我们没有用到这个参数。</p>
 
-<h4 id="exec-publish-done:a8edd52e082f44f6a206bc3ba04c03d4">exec_publish_done</h4>
+<h4 id="exec-publish-done">exec_publish_done</h4>
 
 <p>Syntax: <code>exec_publish_done command arg*</code><br />
 Context: rtmp, server, application</p>
@@ -755,7 +755,7 @@ is the same as for <code>exec_publish</code>.
 设置发布完时调用外部命令带参数。不分析返回码。替换列表同exec_publish。<br />
 <strong>提示：</strong> 我们没有用到这个参数。</p>
 
-<h4 id="exec-record-done:a8edd52e082f44f6a206bc3ba04c03d4">exec_record_done</h4>
+<h4 id="exec-record-done">exec_record_done</h4>
 
 <p>Syntax: <code>exec_record_done command arg*</code><br />
 Context: rtmp, server, application, recorder</p>
@@ -798,9 +798,9 @@ exec_record_done ffmpeg -y -i $path -acodec libmp3lame -ar 44100 -ac 1 -vcodec l
 
 </code></pre>
 
-<h2 id="live:a8edd52e082f44f6a206bc3ba04c03d4">Live</h2>
+<h2 id="live">Live</h2>
 
-<h4 id="live-1:a8edd52e082f44f6a206bc3ba04c03d4">live</h4>
+<h4 id="live-1">live</h4>
 
 <p>Syntax: <code>live on|off</code><br />
 Context: rtmp, server, application</p>
@@ -814,7 +814,7 @@ Context: rtmp, server, application</p>
 
 <p><strong>提示：</strong>  无</p>
 
-<h4 id="meta:a8edd52e082f44f6a206bc3ba04c03d4">meta</h4>
+<h4 id="meta">meta</h4>
 
 <p>Syntax: <code>meta on|copy|off</code><br />
 Context: rtmp, server, application</p>
@@ -833,7 +833,7 @@ Defaults to on.</p>
 
 <p><strong>提示：</strong> 用默认值就行，我们没有特殊设置。</p>
 
-<h4 id="interleave:a8edd52e082f44f6a206bc3ba04c03d4">interleave</h4>
+<h4 id="interleave">interleave</h4>
 
 <p>Syntax: <code>interleave on|off</code><br />
 Context: rtmp, server, application</p>
@@ -850,7 +850,7 @@ Defaults to off.</p>
 <p><strong>提示：</strong> 用默认值就行，我们没有特殊设置。如果要获得更好的音视频同步效果，可以试着打开。<br />
 参见 <a href="https://github.com/arut/nginx-rtmp-module/issues/241">nginx-rtmp-module issue 241</a></p>
 
-<h4 id="wait-key:a8edd52e082f44f6a206bc3ba04c03d4">wait_key</h4>
+<h4 id="wait-key">wait_key</h4>
 
 <p>Syntax: <code>wait_key on|off</code><br />
 Context: rtmp, server, application</p>
@@ -864,7 +864,7 @@ Context: rtmp, server, application</p>
 
 <p><strong>提示：</strong> 使用默认值，因为从关键帧起播会增加延迟。</p>
 
-<h4 id="wait-video:a8edd52e082f44f6a206bc3ba04c03d4">wait_video</h4>
+<h4 id="wait-video">wait_video</h4>
 
 <p>Syntax: <code>wait_video on|off</code><br />
 Context: rtmp, server, application</p>
@@ -886,7 +886,7 @@ encoder to reduce the delay.</p>
 
 <p><strong>提示：</strong> 使用默认值，我们不希望增加延迟。</p>
 
-<h4 id="publish-notify:a8edd52e082f44f6a206bc3ba04c03d4">publish_notify</h4>
+<h4 id="publish-notify">publish_notify</h4>
 
 <p>Syntax: <code>publish_notify on|off</code><br />
 Context: rtmp, server, application</p>
@@ -901,7 +901,7 @@ subscribers. Defaults to off.</p>
 
 <p><strong>提示：</strong> 用默认值就行，我们没有特殊设置。</p>
 
-<h4 id="drop-idle-publisher:a8edd52e082f44f6a206bc3ba04c03d4">drop_idle_publisher</h4>
+<h4 id="drop-idle-publisher">drop_idle_publisher</h4>
 
 <p>Syntax: <code>drop_idle_publisher timeout</code><br />
 Context: rtmp, server, application</p>
@@ -918,7 +918,7 @@ connection is in publish mode (after sending <code>publish</code> command).</p>
 <p><strong>提示：</strong> 我们设置这个参数为20s,表示当一个发布连接上不发送任何数据到20s后就断掉这个连接。<br />
 参见 <a href="https://github.com/arut/nginx-rtmp-module/issues/374">nginx-rtmp-module issue 374</a></p>
 
-<h4 id="sync:a8edd52e082f44f6a206bc3ba04c03d4">sync</h4>
+<h4 id="sync">sync</h4>
 
 <p>Syntax: <code>sync timeout</code><br />
 Context: rtmp, server, application</p>
@@ -936,7 +936,7 @@ absolute frame is sent fixing that. Default is 300ms.</p>
 
 <p><strong>提示：</strong> 用默认值就行，我们没有特殊设置。但是隐隐感觉以后会用上 x_x</p>
 
-<h4 id="play-restart:a8edd52e082f44f6a206bc3ba04c03d4">play_restart</h4>
+<h4 id="play-restart">play_restart</h4>
 
 <p>Syntax: <code>play_restart on|off</code><br />
 Context: rtmp, server, application</p>
@@ -954,7 +954,7 @@ playback. Default is off.</p>
 <p><strong>提示：</strong> 用默认值就行，我们没有特殊设置。<br />
 参见 <a href="https://github.com/arut/nginx-rtmp-module/issues/397">nginx-rtmp-module issue 397</a></p>
 
-<h4 id="idle-streams:a8edd52e082f44f6a206bc3ba04c03d4">idle_streams</h4>
+<h4 id="idle-streams">idle_streams</h4>
 
 <p>Syntax: <code>idle_streams on|off</code><br />
 Context: rtmp, server, application</p>
@@ -970,9 +970,9 @@ Default is on.</p>
 
 <p><strong>提示：</strong> 用默认值就行，我们没有特殊设置。</p>
 
-<h2 id="record:a8edd52e082f44f6a206bc3ba04c03d4">Record</h2>
+<h2 id="record">Record</h2>
 
-<h4 id="record-1:a8edd52e082f44f6a206bc3ba04c03d4">record</h4>
+<h4 id="record-1">record</h4>
 
 <p>syntax: <code>record [off|all|audio|video|keyframes|manual]*</code><br />
 context: rtmp, server, application, recorder</p>
@@ -1012,7 +1012,7 @@ record audio keyframes;
 
 </code></pre>
 
-<h4 id="record-path:a8edd52e082f44f6a206bc3ba04c03d4">record_path</h4>
+<h4 id="record-path">record_path</h4>
 
 <p>syntax: <code>record_path path</code><br />
 context: rtmp, server, application, recorder</p>
@@ -1025,7 +1025,7 @@ context: rtmp, server, application, recorder</p>
 
 <p><strong>提示：</strong> 根据需要设置。</p>
 
-<h4 id="record-suffix:a8edd52e082f44f6a206bc3ba04c03d4">record_suffix</h4>
+<h4 id="record-suffix">record_suffix</h4>
 
 <p>syntax: <code>record_suffix value</code><br />
 context: rtmp, server, application, recorder</p>
@@ -1049,7 +1049,7 @@ All supported <code>strftime</code> format options can be found on
 
 <p><strong>提示：</strong> 根据需要设置。</p>
 
-<h4 id="record-unique:a8edd52e082f44f6a206bc3ba04c03d4">record_unique</h4>
+<h4 id="record-unique">record_unique</h4>
 
 <p>syntax: <code>record_unique on|off</code><br />
 context: rtmp, server, application, recorder</p>
@@ -1064,7 +1064,7 @@ is re-written each time new recording takes place. Default is off.</p>
 
 <p><strong>提示：</strong> 根据需要设置。</p>
 
-<h4 id="record-append:a8edd52e082f44f6a206bc3ba04c03d4">record_append</h4>
+<h4 id="record-append">record_append</h4>
 
 <p>syntax: <code>record_append on|off</code><br />
 context: rtmp, server, application, recorder</p>
@@ -1080,7 +1080,7 @@ data in file. Default is off.</p>
 
 <p><strong>提示：</strong> 根据需要设置。</p>
 
-<h4 id="record-lock:a8edd52e082f44f6a206bc3ba04c03d4">record_lock</h4>
+<h4 id="record-lock">record_lock</h4>
 
 <p>syntax: <code>record_lock on|off</code><br />
 context: rtmp, server, application, recorder</p>
@@ -1110,7 +1110,7 @@ fcntl.lockf(open(sys.argv[1], &quot;a&quot;), fcntl.LOCK_EX|fcntl.LOCK_NB)
 
 <p><strong>提示：</strong> 不知道什么情况下需要，用默认值就好。</p>
 
-<h4 id="record-max-size:a8edd52e082f44f6a206bc3ba04c03d4">record_max_size</h4>
+<h4 id="record-max-size">record_max_size</h4>
 
 <p>syntax: <code>record_max_size size</code><br />
 context: rtmp, server, application, recorder</p>
@@ -1124,7 +1124,7 @@ context: rtmp, server, application, recorder</p>
 
 <p><strong>提示：</strong> 根据需要设置。</p>
 
-<h4 id="record-max-frames:a8edd52e082f44f6a206bc3ba04c03d4">record_max_frames</h4>
+<h4 id="record-max-frames">record_max_frames</h4>
 
 <p>syntax: <code>record_max_frames nframes</code><br />
 context: rtmp, server, application, recorder</p>
@@ -1138,7 +1138,7 @@ context: rtmp, server, application, recorder</p>
 
 <p><strong>提示：</strong> 根据需要设置。</p>
 
-<h4 id="record-interval:a8edd52e082f44f6a206bc3ba04c03d4">record_interval</h4>
+<h4 id="record-interval">record_interval</h4>
 
 <p>syntax: <code>record_interval time</code><br />
 context: rtmp, server, application, recorder</p>
@@ -1158,7 +1158,7 @@ record_interval 15m;
 
 <p><strong>提示：</strong> 根据需要设置，一般配合record_unique on一起使用。</p>
 
-<h4 id="recorder:a8edd52e082f44f6a206bc3ba04c03d4">recorder</h4>
+<h4 id="recorder">recorder</h4>
 
 <p>syntax: <code>recorder name {...}</code><br />
 context: application</p>
@@ -1192,7 +1192,7 @@ are inherited from higher levels.</p>
 
 <p><strong>提示：</strong> 根据需要设置。</p>
 
-<h4 id="record-notify:a8edd52e082f44f6a206bc3ba04c03d4">record_notify</h4>
+<h4 id="record-notify">record_notify</h4>
 
 <p>syntax: <code>record_notify on|off</code><br />
 context: rtmp, server, application, recorder</p>
@@ -1213,9 +1213,9 @@ recorder name (empty for default recorder). Off by default.</p>
 
 <p><strong>提示：</strong> 目前没用到，用默认值。</p>
 
-<h2 id="video-on-demand:a8edd52e082f44f6a206bc3ba04c03d4">Video on demand</h2>
+<h2 id="video-on-demand">Video on demand</h2>
 
-<h4 id="play:a8edd52e082f44f6a206bc3ba04c03d4">play</h4>
+<h4 id="play">play</h4>
 
 <p>Syntax: <code>play dir|http://loc [dir|http://loc]*</code><br />
 Context: rtmp, server, application</p>
@@ -1296,7 +1296,7 @@ application vod_http {
 
 <p><strong>提示：</strong> VOD是一个古老而现在又没什么卵用的模块，你喜欢就好。</p>
 
-<h4 id="play-temp-path:a8edd52e082f44f6a206bc3ba04c03d4">play_temp_path</h4>
+<h4 id="play-temp-path">play_temp_path</h4>
 
 <p>Syntax: <code>play_temp_path dir</code><br />
 Context: rtmp, server, application</p>
@@ -1312,7 +1312,7 @@ play http://example.com/videos;
 
 <p><strong>提示：</strong> 根据需要设置。</p>
 
-<h4 id="play-local-path:a8edd52e082f44f6a206bc3ba04c03d4">play_local_path</h4>
+<h4 id="play-local-path">play_local_path</h4>
 
 <p>Syntax: <code>play_local_path dir</code><br />
 Context: rtmp, server, application</p>
@@ -1337,9 +1337,9 @@ play /tmp/videos http://example.com/videos;
 
 <p><strong>提示：</strong> 根据需要设置。</p>
 
-<h2 id="relay:a8edd52e082f44f6a206bc3ba04c03d4">Relay</h2>
+<h2 id="relay">Relay</h2>
 
-<h4 id="pull:a8edd52e082f44f6a206bc3ba04c03d4">pull</h4>
+<h4 id="pull">pull</h4>
 
 <p>Syntax: <code>pull url [key=value]*</code><br />
 Context: application</p>
@@ -1384,7 +1384,7 @@ pull rtmp://cdn.example.com/main/ch?id=12563 name=channel_a static;
 
 <p><strong>提示：</strong> 这组中继指令在nginx-rtmp组网时应该会用到，但是一直听说nginx-rtmp对于大规模组网支持的不够好，自己也没机会测试，以后如果有机会测试，会补上。</p>
 
-<h4 id="push:a8edd52e082f44f6a206bc3ba04c03d4">push</h4>
+<h4 id="push">push</h4>
 
 <p>Syntax: <code>push url [key=value]*</code><br />
 Context: application</p>
@@ -1395,7 +1395,7 @@ Context: application</p>
 
 <p><strong>提示：</strong> 根据需要设置。</p>
 
-<h4 id="push-reconnect:a8edd52e082f44f6a206bc3ba04c03d4">push_reconnect</h4>
+<h4 id="push-reconnect">push_reconnect</h4>
 
 <p>Syntax: <code>push_reconnect time</code><br />
 Context: rtmp, server, application</p>
@@ -1409,7 +1409,7 @@ Context: rtmp, server, application</p>
 
 <p><strong>提示：</strong> 根据需要设置。</p>
 
-<h4 id="session-relay:a8edd52e082f44f6a206bc3ba04c03d4">session_relay</h4>
+<h4 id="session-relay">session_relay</h4>
 
 <p>Syntax: <code>session_relay on|off</code><br />
 Context: rtmp, server, application</p>
@@ -1425,9 +1425,9 @@ could possibly be created later. Default is off.</p>
 
 <p><strong>提示：</strong> 根据需要设置。</p>
 
-<h2 id="notify:a8edd52e082f44f6a206bc3ba04c03d4">Notify</h2>
+<h2 id="notify">Notify</h2>
 
-<h4 id="on-connect:a8edd52e082f44f6a206bc3ba04c03d4">on_connect</h4>
+<h4 id="on-connect">on_connect</h4>
 
 <p>Syntax: <code>on_connect url</code><br />
 Context: rtmp, server</p>
@@ -1498,7 +1498,7 @@ file: &quot;mystream?strarg1=c&amp;strarg2=d&quot;,
 
 <p><strong>提示：</strong> 没用到这个，也没测试过，等需要用到再说。</p>
 
-<h4 id="on-play:a8edd52e082f44f6a206bc3ba04c03d4">on_play</h4>
+<h4 id="on-play">on_play</h4>
 
 <p>Syntax: <code>on_play url</code><br />
 Context: rtmp, server, application</p>
@@ -1583,7 +1583,7 @@ accessed with the url <code>rtmp://localhost/app/movie?a=100&amp;b=face&amp;foo=
 
 <p><strong>提示：</strong> 我们在on_play设置了回调。</p>
 
-<h4 id="on-publish:a8edd52e082f44f6a206bc3ba04c03d4">on_publish</h4>
+<h4 id="on-publish">on_publish</h4>
 
 <p>Syntax: <code>on_publish url</code><br />
 Context: rtmp, server, application</p>
@@ -1596,7 +1596,7 @@ this case.</p>
 
 <p><strong>提示：</strong> 我们在on_publish设置了回调。</p>
 
-<h4 id="on-done:a8edd52e082f44f6a206bc3ba04c03d4">on_done</h4>
+<h4 id="on-done">on_done</h4>
 
 <p>Syntax: <code>on_done url</code><br />
 Context: rtmp, server, application</p>
@@ -1608,7 +1608,7 @@ HTTP status code is not checked for this callback.</p>
 
 <p><strong>提示：</strong> 我们没有用到这个。</p>
 
-<h4 id="on-play-done:a8edd52e082f44f6a206bc3ba04c03d4">on_play_done</h4>
+<h4 id="on-play-done">on_play_done</h4>
 
 <p>Syntax: <code>on_play_done url</code><br />
 Context: rtmp, server, application</p>
@@ -1619,7 +1619,7 @@ Context: rtmp, server, application</p>
 
 <p><strong>提示：</strong> 我们没有用到这个。</p>
 
-<h4 id="on-publish-done:a8edd52e082f44f6a206bc3ba04c03d4">on_publish_done</h4>
+<h4 id="on-publish-done">on_publish_done</h4>
 
 <p>Syntax: <code>on_publish_done url</code><br />
 Context: rtmp, server, application</p>
@@ -1630,7 +1630,7 @@ Context: rtmp, server, application</p>
 
 <p><strong>提示：</strong> 我们在on_publish_done设置了回调。</p>
 
-<h4 id="on-record-done:a8edd52e082f44f6a206bc3ba04c03d4">on_record_done</h4>
+<h4 id="on-record-done">on_record_done</h4>
 
 <p>syntax: <code>on_record_done url</code><br />
 context: rtmp, server, application, recorder</p>
@@ -1649,7 +1649,7 @@ variables it receives the following values
 
 <p><strong>提示：</strong> 我们没有用到这个。</p>
 
-<h4 id="on-update:a8edd52e082f44f6a206bc3ba04c03d4">on_update</h4>
+<h4 id="on-update">on_update</h4>
 
 <p>syntax: <code>on_update url</code><br />
 context: rtmp, server, application</p>
@@ -1672,7 +1672,7 @@ for each user.</p>
 
 <p><strong>提示：</strong> 我们设置了on_update回调。</p>
 
-<h4 id="notify-update-timeout:a8edd52e082f44f6a206bc3ba04c03d4">notify_update_timeout</h4>
+<h4 id="notify-update-timeout">notify_update_timeout</h4>
 
 <p>syntax: <code>notify_update_timeout timeout</code><br />
 context: rtmp, server, application</p>
@@ -1687,7 +1687,7 @@ on_update http://example.com/update;
 
 <p><strong>提示：</strong> 我们设置为1s。</p>
 
-<h4 id="notify-update-strict:a8edd52e082f44f6a206bc3ba04c03d4">notify_update_strict</h4>
+<h4 id="notify-update-strict">notify_update_strict</h4>
 
 <p>syntax: <code>notify_update_strict on|off</code><br />
 context: rtmp, server, application</p>
@@ -1706,7 +1706,7 @@ on_update http://example.com/update;
 
 <p><strong>提示：</strong> 我们没有用到这个。</p>
 
-<h4 id="notify-relay-redirect:a8edd52e082f44f6a206bc3ba04c03d4">notify_relay_redirect</h4>
+<h4 id="notify-relay-redirect">notify_relay_redirect</h4>
 
 <p>syntax: <code>notify_relay_redirect on|off</code><br />
 context: rtmp, server, application</p>
@@ -1722,7 +1722,7 @@ Default is off.</p>
 
 <p><strong>提示：</strong> 我们没有用到这个。</p>
 
-<h4 id="notify-method:a8edd52e082f44f6a206bc3ba04c03d4">notify_method</h4>
+<h4 id="notify-method">notify_method</h4>
 
 <p>syntax: <code>notify_method get|post</code><br />
 context: rtmp, server, application, recorder</p>
@@ -1750,9 +1750,9 @@ to access arguments.</p>
 
 <p><strong>提示：</strong> 我们没有用到这个。</p>
 
-<h2 id="hls:a8edd52e082f44f6a206bc3ba04c03d4">HLS</h2>
+<h2 id="hls">HLS</h2>
 
-<h4 id="hls-1:a8edd52e082f44f6a206bc3ba04c03d4">hls</h4>
+<h4 id="hls-1">hls</h4>
 
 <p>Syntax: <code>hls on|off</code><br />
 Context: rtmp, server, application</p>
@@ -1791,7 +1791,7 @@ hls_fragment 15s;
 
 <p><strong>提示：</strong> 当然要开启，就是为了用这个功能！</p>
 
-<h4 id="hls-path:a8edd52e082f44f6a206bc3ba04c03d4">hls_path</h4>
+<h4 id="hls-path">hls_path</h4>
 
 <p>Syntax: <code>hls_path path</code><br />
 Context: rtmp, server, application</p>
@@ -1803,7 +1803,7 @@ exist it will be created.</p>
 
 <p><strong>提示：</strong> 根据需要设置。</p>
 
-<h4 id="hls-fragment:a8edd52e082f44f6a206bc3ba04c03d4">hls_fragment</h4>
+<h4 id="hls-fragment">hls_fragment</h4>
 
 <p>Syntax: <code>hls_fragment time</code><br />
 Context: rtmp, server, application</p>
@@ -1814,7 +1814,7 @@ Context: rtmp, server, application</p>
 
 <p><strong>提示：</strong> 我们设置为10秒。</p>
 
-<h4 id="hls-playlist-length:a8edd52e082f44f6a206bc3ba04c03d4">hls_playlist_length</h4>
+<h4 id="hls-playlist-length">hls_playlist_length</h4>
 
 <p>Syntax: <code>hls_playlist_length time</code><br />
 Context: rtmp, server, application</p>
@@ -1828,7 +1828,7 @@ Context: rtmp, server, application</p>
 
 <p><strong>提示：</strong> 我们设置为10分钟，这样索引文件中只包含10分钟的分片信息。</p>
 
-<h4 id="hls-sync:a8edd52e082f44f6a206bc3ba04c03d4">hls_sync</h4>
+<h4 id="hls-sync">hls_sync</h4>
 
 <p>Syntax: <code>hls_sync time</code><br />
 Context: rtmp, server, application</p>
@@ -1844,7 +1844,7 @@ from low-resolution RTMP (1KHz) to high-resolution MPEG-TS (90KHz).</p>
 
 <p><strong>提示：</strong> 我们目前没有设置这个指令。</p>
 
-<h4 id="hls-continuous:a8edd52e082f44f6a206bc3ba04c03d4">hls_continuous</h4>
+<h4 id="hls-continuous">hls_continuous</h4>
 
 <p>Syntax: <code>hls_continuous on|off</code><br />
 Context: rtmp, server, application</p>
@@ -1860,7 +1860,7 @@ keeped. Default is off.</p>
 
 <p><strong>提示：</strong> 我们设置为on。</p>
 
-<h4 id="hls-nested:a8edd52e082f44f6a206bc3ba04c03d4">hls_nested</h4>
+<h4 id="hls-nested">hls_nested</h4>
 
 <p>Syntax: <code>hls_nested on|off</code><br />
 Context: rtmp, server, application</p>
@@ -1877,7 +1877,7 @@ Default is off.</p>
 
 <p><strong>提示：</strong> 我们设置为on。</p>
 
-<h4 id="hls-base-url:a8edd52e082f44f6a206bc3ba04c03d4">hls_base_url</h4>
+<h4 id="hls-base-url">hls_base_url</h4>
 
 <p>Syntax: <code>hls_base_url url</code><br />
 Context: rtmp, server, application</p>
@@ -1897,7 +1897,7 @@ fragments. Empty by default.</p>
 
 <p><strong>提示：</strong> 我们没有设置base url，因为我们会自己生成需要的点播索引文件。</p>
 
-<h4 id="hls-cleanup:a8edd52e082f44f6a206bc3ba04c03d4">hls_cleanup</h4>
+<h4 id="hls-cleanup">hls_cleanup</h4>
 
 <p>Syntax: <code>hls_cleanup on|off</code><br />
 Context: rtmp, server, application</p>
@@ -1913,7 +1913,7 @@ HLS fragments and playlists from HLS directory.</p>
 
 <p><strong>提示：</strong> 为了防止时间一长服务器硬盘被HLS分片挤爆，所以一定设置成on。</p>
 
-<h4 id="hls-fragment-naming:a8edd52e082f44f6a206bc3ba04c03d4">hls_fragment_naming</h4>
+<h4 id="hls-fragment-naming">hls_fragment_naming</h4>
 
 <p>Syntax: <code>hls_fragment_naming sequential|timestamp|system</code><br />
 Context: rtmp, server, application</p>
@@ -1932,7 +1932,7 @@ Context: rtmp, server, application</p>
 
 <p><strong>提示：</strong> 根据业务需要一般都是使用第三种命名方式，system。</p>
 
-<h3 id="hls-fragment-naming-granularity:a8edd52e082f44f6a206bc3ba04c03d4">hls_fragment_naming_granularity</h3>
+<h3 id="hls-fragment-naming-granularity">hls_fragment_naming_granularity</h3>
 
 <p>Syntax: <code>hls_fragment_naming_granularity number</code><br />
 Context: rtmp, server, application</p>
@@ -1949,7 +1949,7 @@ hls_fragment_naming_granularity 500;
 
 <p><strong>提示：</strong> 感觉没什么卵用，没设置。</p>
 
-<h4 id="hls-fragment-slicing:a8edd52e082f44f6a206bc3ba04c03d4">hls_fragment_slicing</h4>
+<h4 id="hls-fragment-slicing">hls_fragment_slicing</h4>
 
 <p>Syntax: <code>hls_fragment_slicing plain|aligned</code><br />
 Context: rtmp, server, application</p>
@@ -1967,7 +1967,7 @@ Context: rtmp, server, application</p>
 
 <p><strong>提示：</strong> 目前我们没有设置。</p>
 
-<h4 id="hls-variant:a8edd52e082f44f6a206bc3ba04c03d4">hls_variant</h4>
+<h4 id="hls-variant">hls_variant</h4>
 
 <p>Syntax: <code>hls_variant suffix [param*]</code><br />
 Context: rtmp, server, application</p>
@@ -2016,7 +2016,7 @@ parameters.</p>
 
 <p><strong>提示：</strong> src中ffmpeg转出多路码率的码流，然后传入hls中，通过hls_variant设置多码率，这样就会生成一个masterplaylist和每个码率一个自己的mediaplaylist。从而可以支持HLS多码率的功能。</p>
 
-<h4 id="hls-type:a8edd52e082f44f6a206bc3ba04c03d4">hls_type</h4>
+<h4 id="hls-type">hls_type</h4>
 
 <p>Syntax: <code>hls_type live|event</code><br />
 Context: rtmp, server, application</p>
@@ -2038,7 +2038,7 @@ is enough for the whole event. Default is <code>live</code>;</p>
 
 <p><strong>提示：</strong> 我们一定是用live的。</p>
 
-<h4 id="hls-keys:a8edd52e082f44f6a206bc3ba04c03d4">hls_keys</h4>
+<h4 id="hls-keys">hls_keys</h4>
 
 <p>Syntax: <code>hls_keys on|off</code><br />
 Context: rtmp, server, application</p>
@@ -2101,7 +2101,7 @@ rtmp {
 
 <p><strong>提示：</strong> 目前我们不支持切片加密，所以没设置这个。</p>
 
-<h4 id="hls-key-path:a8edd52e082f44f6a206bc3ba04c03d4">hls_key_path</h4>
+<h4 id="hls-key-path">hls_key_path</h4>
 
 <p>Syntax: <code>hls_key_path path</code><br />
 Context: rtmp, server, application</p>
@@ -2121,7 +2121,7 @@ is easier when these files are stored separately from playlist and fragments.</p
 
 <p><strong>提示：</strong> 目前我们不支持切片加密，所以没设置这个。</p>
 
-<h4 id="hls-key-url:a8edd52e082f44f6a206bc3ba04c03d4">hls_key_url</h4>
+<h4 id="hls-key-url">hls_key_url</h4>
 
 <p>Syntax: <code>hls_key_url url</code><br />
 Context: rtmp, server, application</p>
@@ -2144,7 +2144,7 @@ as the playlist. Empty by default.</p>
 
 <p><strong>提示：</strong> 目前我们不支持切片加密，所以没设置这个。</p>
 
-<h4 id="hls-fragments-per-key:a8edd52e082f44f6a206bc3ba04c03d4">hls_fragments_per_key</h4>
+<h4 id="hls-fragments-per-key">hls_fragments_per_key</h4>
 
 <p>Syntax: <code>hls_fragments_per_key value</code><br />
 Context: rtmp, server, application</p>
@@ -2161,9 +2161,9 @@ Default is zero.</p>
 
 <p><strong>提示：</strong> 目前我们不支持切片加密，所以没设置这个。</p>
 
-<h2 id="mpeg-dash:a8edd52e082f44f6a206bc3ba04c03d4">MPEG-DASH</h2>
+<h2 id="mpeg-dash">MPEG-DASH</h2>
 
-<h4 id="dash:a8edd52e082f44f6a206bc3ba04c03d4">dash</h4>
+<h4 id="dash">dash</h4>
 
 <p>Syntax: <code>dash on|off</code><br />
 Context: rtmp, server, application</p>
@@ -2195,7 +2195,7 @@ dash_fragment 15s;
 
 <p><strong>提示：</strong> DASH目前没有多少人在用，所以没有研究，但应该跟HLS也是差不多的。</p>
 
-<h4 id="dash-path:a8edd52e082f44f6a206bc3ba04c03d4">dash_path</h4>
+<h4 id="dash-path">dash_path</h4>
 
 <p>Syntax: <code>dash_path path</code><br />
 Context: rtmp, server, application</p>
@@ -2205,7 +2205,7 @@ exists it will be created.</p>
 
 <p>设置MPEG-DASH列表和切片路径。如果存在自动建立。</p>
 
-<h4 id="dash-fragment:a8edd52e082f44f6a206bc3ba04c03d4">dash_fragment</h4>
+<h4 id="dash-fragment">dash_fragment</h4>
 
 <p>Syntax: <code>dash_fragment time</code><br />
 Context: rtmp, server, application</p>
@@ -2214,7 +2214,7 @@ Context: rtmp, server, application</p>
 
 <p>设置MPEG-DASH切片时 长。默认5s。</p>
 
-<h4 id="dash-playlist-length:a8edd52e082f44f6a206bc3ba04c03d4">dash_playlist_length</h4>
+<h4 id="dash-playlist-length">dash_playlist_length</h4>
 
 <p>Syntax: <code>dash_playlist_length time</code><br />
 Context: rtmp, server, application</p>
@@ -2226,7 +2226,7 @@ Context: rtmp, server, application</p>
 <pre><code>dash_playlist_length 10m;
 </code></pre>
 
-<h4 id="dash-nested:a8edd52e082f44f6a206bc3ba04c03d4">dash_nested</h4>
+<h4 id="dash-nested">dash_nested</h4>
 
 <p>Syntax: <code>dash_nested on|off</code><br />
 Context: rtmp, server, application</p>
@@ -2241,7 +2241,7 @@ Default is off.</p>
 <pre><code>dash_nested on;
 </code></pre>
 
-<h4 id="dash-cleanup:a8edd52e082f44f6a206bc3ba04c03d4">dash_cleanup</h4>
+<h4 id="dash-cleanup">dash_cleanup</h4>
 
 <p>Syntax: <code>dash_cleanup on|off</code><br />
 Context: rtmp, server, application</p>
@@ -2256,9 +2256,9 @@ Init fragments are deleted after stream manifest is deleted.</p>
 <pre><code>dash_cleanup off;
 </code></pre>
 
-<h2 id="access-log:a8edd52e082f44f6a206bc3ba04c03d4">Access log</h2>
+<h2 id="access-log">Access log</h2>
 
-<h4 id="access-log-1:a8edd52e082f44f6a206bc3ba04c03d4">access_log</h4>
+<h4 id="access-log-1">access_log</h4>
 
 <p>Syntax: <code>access_log off|path [format_name]</code><br />
 Context: rtmp, server, application</p>
@@ -2280,7 +2280,7 @@ access_log off;
 
 <p><strong>提示：</strong> log_format可以定义Log的输出内容和格式，并把这个log形式组合起一个名字，比如上例的new, 然后在access_log就可以指定要输出的log位置，后边带上刚刚定义的log组合名字。</p>
 
-<h4 id="log-format:a8edd52e082f44f6a206bc3ba04c03d4">log_format</h4>
+<h4 id="log-format">log_format</h4>
 
 <p>Syntax: <code>log_format format_name format</code><br />
 Context: rtmp</p>
@@ -2321,9 +2321,9 @@ $bytes_received $bytes_sent &quot;$pageurl&quot; &quot;$flashver&quot; ($session
 
 <p>将rtmp log输出到rtmp_access.log文件中。</p>
 
-<h2 id="limits:a8edd52e082f44f6a206bc3ba04c03d4">Limits</h2>
+<h2 id="limits">Limits</h2>
 
-<h4 id="max-connections:a8edd52e082f44f6a206bc3ba04c03d4">max_connections</h4>
+<h4 id="max-connections">max_connections</h4>
 
 <p>Syntax: <code>max_connections number</code><br />
 Context: rtmp, server, application</p>
@@ -2337,7 +2337,7 @@ Context: rtmp, server, application</p>
 
 <p><strong>提示：</strong> 我们没有设置限制。</p>
 
-<h2 id="statistics:a8edd52e082f44f6a206bc3ba04c03d4">Statistics</h2>
+<h2 id="statistics">Statistics</h2>
 
 <p>Statistics module is NGINX HTTP module unlike all other modules listed
 here. Hence statistics directives should be located within http{} block.</p>
@@ -2346,7 +2346,7 @@ here. Hence statistics directives should be located within http{} block.</p>
 
 <p><strong>提示：</strong> 但是。。。。这个模块有一个大坑，就是只能在nginx单worker的模式下正常工作，一旦设置为多worker模式，这个统计信息就完全不准了, 所以将来我们如果要做统计还要另想办法。</p>
 
-<h4 id="rtmp-stat:a8edd52e082f44f6a206bc3ba04c03d4">rtmp_stat</h4>
+<h4 id="rtmp-stat">rtmp_stat</h4>
 
 <p>Syntax: <code>rtmp_stat all</code><br />
 Context: http, server, location</p>
@@ -2370,7 +2370,7 @@ use rtmp_stat_stylesheet directive.</p>
 
 <p><strong>提示：</strong> 其中/stat.xsl下指定的root路径下一定要有stat.xsl这模板文件，这个文件就在nginx-rtmp-module源码包的根目录下，拷贝过去就行了。</p>
 
-<h4 id="rtmp-stat-stylesheet:a8edd52e082f44f6a206bc3ba04c03d4">rtmp_stat_stylesheet</h4>
+<h4 id="rtmp-stat-stylesheet">rtmp_stat_stylesheet</h4>
 
 <p>Syntax: <code>rtmp_stat_stylesheet path</code><br />
 Context: http, server, location</p>
@@ -2378,14 +2378,14 @@ Context: http, server, location</p>
 <p>Adds XML stylesheet reference to statistics XML to make it viewable
 in browser. See rtmp_stat description and example for more information.</p>
 
-<h2 id="multi-worker-live-streaming:a8edd52e082f44f6a206bc3ba04c03d4">Multi-worker live streaming</h2>
+<h2 id="multi-worker-live-streaming">Multi-worker live streaming</h2>
 
 <p>Multi-worker live streaming is implemented through pushing stream
 to remaining nginx workers.</p>
 
 <p>多worker模式支持。通过推流给持续的nginx workers实现多worker直播流。</p>
 
-<h4 id="rtmp-auto-push:a8edd52e082f44f6a206bc3ba04c03d4">rtmp_auto_push</h4>
+<h4 id="rtmp-auto-push">rtmp_auto_push</h4>
 
 <p>Syntax: <code>rtmp_auto_push on|off</code><br />
 Context: root</p>
@@ -2397,7 +2397,7 @@ Default is off.</p>
 
 <p><strong>提示：</strong> 我们会用多worker模式，所以我们把这项设为on</p>
 
-<h4 id="rtmp-auto-push-reconnect:a8edd52e082f44f6a206bc3ba04c03d4">rtmp_auto_push_reconnect</h4>
+<h4 id="rtmp-auto-push-reconnect">rtmp_auto_push_reconnect</h4>
 
 <p>Syntax: <code>rtmp_auto_push_reconnect timeout</code><br />
 Context: root</p>
@@ -2407,7 +2407,7 @@ Default is 100 milliseconds.</p>
 
 <p>设置worker被杀掉时自动重 连超时。默认100ms。</p>
 
-<h4 id="rtmp-socket-dir:a8edd52e082f44f6a206bc3ba04c03d4">rtmp_socket_dir</h4>
+<h4 id="rtmp-socket-dir">rtmp_socket_dir</h4>
 
 <p>Syntax: <code>rtmp_socket_dir dir</code><br />
 Context: root</p>
@@ -2431,7 +2431,7 @@ rtmp {
 }
 </code></pre>
 
-<h2 id="control:a8edd52e082f44f6a206bc3ba04c03d4">Control</h2>
+<h2 id="control">Control</h2>
 
 <p>Control module is NGINX HTTP module and should be located within http{} block.</p>
 
@@ -2439,7 +2439,7 @@ rtmp {
 
 <p><strong>提示：</strong> 这个模块和统计模块问题是一样的，只在单worker下能稳定正常工作，在多worker下就完蛋了，说这句话容易，但这都是自己踩过坑之后才知道的。</p>
 
-<h4 id="rtmp-control:a8edd52e082f44f6a206bc3ba04c03d4">rtmp_control</h4>
+<h4 id="rtmp-control">rtmp_control</h4>
 
 <p>Syntax: <code>rtmp_control all</code><br />
 Context: http, server, location</p>
