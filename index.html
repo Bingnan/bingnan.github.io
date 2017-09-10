@@ -80,16 +80,6 @@
       <span class="post-date">Nov 20, 2016 &middot; 1 minute read &middot; <a href="http://bingnan.github.io/blog/2016/11/20/%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BAnginx-rtmp-module%E7%9A%84xcode%E5%B7%A5%E7%A8%8B/#disqus_thread">Comments</a>
       
       <br/>
-      
-      </span>
-      
-      适用于MacOS Sierra新系统，感谢 https://github.com/Akagi201/ffmpeg-xcode step1 编译nginx-1.8.1和nginx-rtmp-module模块  找一个位置放置好nginx和nginx-rtmp-module的代码，比如：
-nginx-1.8.1 ├── CHANGES ├── CHANGES.ru ├── LICENSE ├── Makefile ├── README ├── auto ├── conf ├── configure ├── contrib ├── html ├── man ├── nginx-rtmp-module ├── objs └── src  进入nginx目录，执行configure命令，configure命令可能会因不同机器而不同，可以参考在我的mac上的命令如下：
-./configure --prefix=/Users/duanbingnan_mt/nginx --add-module=./nginx-rtmp-module --with-debug --with-http_ssl_module --with-cc-opt=&quot;-I/usr/local/Cellar/pcre/8.37/include -I/usr/local/opt/openssl/include&quot; --with-ld-opt=&quot;-L/usr/local/Cellar/pcre/8.37/lib -L/usr/local/opt/openssl/lib&quot;  开始编译 make -j4
-  step2 新建一个空的xcode目录  创建一个空的xcode项目  然后选一个地方保存xcode的工程文件。
-  step3 将nginx源码(包含nginx-rtmp-module)拖拽到xcode项目中  将nginx整个源码目录拖拽进xcode项目中的nginx-rtmp-xcode目录下  下一步，这里一定不要勾选&rdquo;Create external build system project&rdquo;  下一步，这里一定要勾选&rdquo;Add to target&rdquo;下的&rdquo;nginx-rtmp-xcode&rdquo;，否则看代码时无法跳转，写代码时也没有提示   step4 添加一个target  File -&gt; New -&gt; Target -&gt; Cross Platform -&gt; other -&gt; External Build System  target命名为nginx-rtmp-make,确认你的make工具在/usr/bin/make路径下  target切换到nginx-rtmp-make   step5 修改nginx-rtmp-make的源码路径  打开nginx-rtmp-xcode工程配置页面，选择nginx-rtmp-make这个target,在&rdquo;info&rdquo;中输入nginx源码的路径： step6 修改编译参数 用鼠标点击xode界面左上角的切换target按钮，选择&rdquo;Edit Scheme&rdquo;, 在&rdquo;Run&rdquo;标签页中的&rdquo;Info&rdquo;下选择第一步编译出来的Nginx可执行二进制文件路径  在Arguments下可以添加启动参数，对于nginx来说，可以指定Nginx.
-      <a href="http://bingnan.github.io/blog/2016/11/20/%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BAnginx-rtmp-module%E7%9A%84xcode%E5%B7%A5%E7%A8%8B/">Read On &rarr;</a>
-      
     </div>
     
     <div class="post">
@@ -101,16 +91,6 @@ nginx-1.8.1 ├── CHANGES ├── CHANGES.ru ├── LICENSE ├── M
       <br/>
       
       </span>
-      
-      这个我称之为 『段批』 nginx-rtmp-module使用指南
-原文在 nginx-rtmp-module Directives 是最后修改于2014年12月17日的版本。
-网上也有几个翻译的版本，但都比较老了，我这个主要参考了这篇 还有闯闯自己翻译珍藏的版本。
-中英文对照形式的，有的解释其实看英文更好理解，所以这样编排。
-最主要的特色是在部分指令后加入了提示，把我们在最近几个月里使用nginx-rtmp-module的方法，或是遇到的问题以及解决方法记录了一下。
-Ready? GO!
-Table of Contents  Core  rtmp server listen application timeout ping ping_timeout max_streams ack_window chunk_size max_queue max_message buflen out_queue out_cork  Access  allow deny  Exec  exec_push exec_pull exec exec_options exec_static exec_kill_signal respawn respawn_timeout exec_publish exec_play exec_play_done exec_publish_done exec_record_done  Live  live meta interleave wait_key wait_video publish_notify drop_idle_publisher sync play_restart idle_streams  Record  record record_path record_suffix record_unique record_append record_lock record_max_size record_max_frames record_interval recorder record_notify  Video on demand  play play_temp_path play_local_path  Relay  pull push push_reconnect session_relay  Notify  on_connect on_play on_publish on_done on_play_done on_publish_done on_record_done on_update notify_update_timeout notify_update_strict notify_relay_redirect notify_method  HLS  hls hls_path hls_fragment hls_playlist_length hls_sync hls_continuous hls_nested hls_base_url hls_cleanup hls_fragment_naming hls_fragment_naming_granularity hls_fragment_slicing hls_variant hls_type hls_keys hls_key_path hls_key_url hls_fragments_per_key  MPEG-DASH  dash dash_path dash_fragment dash_playlist_length dash_nested dash_cleanup  Access log  access_log log_format  Limits  max_connections  Statistics  rtmp_stat rtmp_stat_stylesheet  Multi-worker live streaming  rtmp_auto_push rtmp_auto_push_reconnect rtmp_socket_dir  Control  rtmp_control   Core rtmp syntax: rtmp { .
-      <a href="http://bingnan.github.io/blog/2015/12/22/nginx-rtmp-module-directives%E7%BF%BB%E8%AF%91%E5%92%8C%E6%B3%A8%E9%87%8A/">Read On &rarr;</a>
-      
     </div>
     
     
